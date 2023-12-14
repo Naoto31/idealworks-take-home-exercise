@@ -98,7 +98,7 @@
 import { defineComponent } from "vue";
 
 export default defineComponent({
-  name: "HelloWorld",
+  name: "HomePage",
   props: {
     msg: String,
   },
