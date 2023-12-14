@@ -1,6 +1,12 @@
 <template>
   <div :style="{ marginLeft: `${comment.nestedLevel * 20}px` }" class="card">
-    <img v-if="imageUrl" :src="imageUrl" alt="User avatar" class="avatar" />
+    <div
+      v-if="imageUrl"
+      :style="{ backgroundImage: `url(${imageUrl})` }"
+      class="avatar"
+    >
+      <!-- Additional elements inside avatar, if needed -->
+    </div>
     <div class="content">
       <h3>{{ comment.user?.name }}</h3>
       <p>{{ comment.message }}</p>
@@ -27,14 +33,21 @@ export default defineComponent({
         ? require(`@/assets/images/${props.comment.user.image}`)
         : "";
     });
+
     return { imageUrl };
   },
 });
 </script>
 
-<style>
+<style lang="scss" scoped>
 .avatar {
-  width: 40px;
-  height: 40px;
+  width: 32px;
+  height: 32px;
+  border-radius: 200px;
+  background-size: cover;
+  display: inline-flex;
+  justify-content: flex-end;
+  align-items: center;
+  position: relative;
 }
 </style>
