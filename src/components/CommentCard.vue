@@ -29,7 +29,7 @@ export default defineComponent({
       required: true,
     },
   },
-  beforeMount() {
+  mounted() {
     feather.replace();
   },
   setup(props) {
