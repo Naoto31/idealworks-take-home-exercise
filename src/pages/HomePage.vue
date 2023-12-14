@@ -1,8 +1,8 @@
 <template>
-  <div>
+  <div class="container">
     <div v-for="comment in topLevelComments" :key="comment.id">
-      <CommentCard :comment="comment" />
-      <div v-for="reply in comment.replies" :key="reply.id">
+      <CommentCard :comment="comment" class="one" />
+      <div v-for="reply in comment.replies" :key="reply.id" class="one">
         <CommentCard :comment="reply" />
       </div>
     </div>
@@ -46,3 +46,15 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.container {
+  display: flex;
+  justify-content: space-around;
+  padding: 16px;
+
+  .one {
+    margin-bottom: 16px;
+  }
+}
+</style>

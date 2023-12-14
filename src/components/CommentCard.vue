@@ -1,5 +1,5 @@
 <template>
-  <div :style="{ marginLeft: `${comment.nestedLevel * 20}px` }" class="card">
+  <div :style="{ marginLeft: `${comment.nestedLevel * 48}px` }" class="card">
     <div class="header">
       <div
         v-if="imageUrl"
@@ -29,7 +29,7 @@ export default defineComponent({
       required: true,
     },
   },
-  beforeCreate() {
+  beforeMount() {
     feather.replace();
   },
   setup(props) {
