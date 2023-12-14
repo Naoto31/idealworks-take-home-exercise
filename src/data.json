@@ -1,52 +1,52 @@
 {
   "currentUser": {
-    "id": 3,
+    "id": "user_3",
     "username": "Keiko Tanaka",
-    "avatar": "assets/images/keikot-tanaka.png",
+    "image": "src/assets/images/keiko-tanaka.png",
     "role": "Marketing Coordinator"
   },
   "users": [
     {
-      "id": 1,
+      "id": "user_1",
       "name": "Cassandra Dunn",
-      "avatar": "assets/images/cassandra-dunn.png",
+      "image": "",
       "role": "User"
     },
     {
-      "id": 2,
-      "name": "Kaiji Bell",
-      "avatar": "assets/images/kaiji-bell.png",
+      "id": "user_2",
+      "name": "Kadji Bell",
+      "image": "srt/assets/images/kadji-bell.png",
       "role": "User"
     },
     {
-      "id": 3,
+      "id": "user_3",
       "name": "Keiko Tanaka",
-      "avatar": "assets/images/keiko-tanaka.png",
+      "image": "src/assets/images/keiko-tanaka.png",
       "role": "Marketing Coordinator"
     }
   ],
   "comments": [
     {
-      "id": 1,
-      "userId": 1,
+      "id": "1",
+      "userId": "user_1",
       "parentId": null,
-      "content": "Hey everyone, I'm having some trouble with my new smartphone. The battery life seems to be draining really fast, even with minimal usage. Any ideas on how to troubleshoot this issue?",
+      "message": "Hey everyone, I'm having some trouble with my new smartphone. The battery life seems to be draining really fast, even with minimal usage. Any ideas on how to troubleshoot this issue?",
       "createdAt": "2023-09-20T14:48:00.000Z",
       "score": 4
     },
     {
-      "id": 2,
-      "userId": 2,
-      "parentId": 1,
-      "content": "@CassandraDunn I've experienced a similar problem before. First, check if any apps are running in the background unnecessarily. Also, go to Settings > Battery to see which apps are consuming the most power. Sometimes, a rogue app could be causing the drain. Try that and let us know if it helps!",
+      "id": "2",
+      "userId": "user_2",
+      "parentId": "1",
+      "message": "@CassandraDunn I've experienced a similar problem before. First, check if any apps are running in the background unnecessarily. Also, go to Settings > Battery to see which apps are consuming the most power. Sometimes, a rogue app could be causing the drain. Try that and let us know if it helps!",
       "createdAt": "2023-09-27T09:19:00.000Z",
       "score": 5
     },
     {
-      "id": 3,
-      "userId": 3,
-      "parentId": 1,
-      "content": " @Cassandra Dunn, @Kadji Bell has a good point. Background apps can be a sneaky culprit. Another thing to consider is your network connection. Poor cellular or Wi-Fi signal can lead to increased battery usage as your phone tries to maintain a connection. You might want to toggle on Airplane mode in areas with weak signals to see if that makes a difference.",
+      "id": "3",
+      "userId": "user_3",
+      "parentId": "1",
+      "message": " @Cassandra Dunn, @Kadji Bell has a good point. Background apps can be a sneaky culprit. Another thing to consider is your network connection. Poor cellular or Wi-Fi signal can lead to increased battery usage as your phone tries to maintain a connection. You might want to toggle on Airplane mode in areas with weak signals to see if that makes a difference.",
       "createdAt": "2023-10-01T08:30:00.000Z",
       "score": 2
     }

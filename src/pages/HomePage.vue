@@ -1,32 +1,28 @@
 <template>
   <div>
-    <h1>Comments</h1>
-    <CommentCard></CommentCard>
-    <!-- <div v-for="post in topLevelPosts" :key="post.id">
-      <Card
-        :avatar="getUserAvatar(post.userId)"
-        :username="getUserName(post.userId)"
-        :message="post.message"
-        :createdAt="post.createdAt"
-        :nestedLevel="post.nestedLevel"
+    <div v-for="comment in topLevelComments" :key="comment.id">
+      <CommentCard
+        :user="findUser(comment.userId)"
+        :message="comment.message"
+        :createdAt="comment.createdAt"
+        :nestedLevel="comment.nestedLevel"
       />
-      <div v-for="reply in post.replies" :key="reply.id">
-        <Card
-          :avatar="getUserAvatar(reply.userId)"
-          :username="getUserName(reply.userId)"
+      <div v-for="reply in comment.replies" :key="reply.id">
+        <CommentCard
+          :user="findUser(reply.userId)"
           :message="reply.message"
           :createdAt="reply.createdAt"
           :nestedLevel="reply.nestedLevel"
         />
       </div>
-    </div> -->
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import CommentCard from "../components/CommentCard.vue";
 import data from "../data.json";
-import { Post, PostUI } from "@/type";
+import { Comment, User, CommentUI } from "../type";
 
 export default {
   name: "HomePage",
@@ -34,24 +30,28 @@ export default {
     CommentCard,
   },
   setup() {
-    console.log(data);
-    // const topLevelPosts = buildCommentTree(data.comments);
-    // function getUserAvatar(userId: string) {
-    //   return data.users.find(user => user.id === userId)?.avatar || "";
-    // }
-    // function getUserName(userId: string) {
-    //   return data.users.find(user => user.id === userId)?.name || "Unknown";
-    // }
-    // function buildCommentTree(posts: PostUI[], parentId = null, level = 0) {
-    //   return posts
-    //     .filter(post => post.parentId === parentId)
-    //     .map(post => ({
-    //       ...post,
-    //       nestedLevel: level,
-    //       replies: buildCommentTree(posts, post.id, level + 1),
-    //     }));
-    // }
-    // return { topLevelPosts, getUserAvatar, getUserName };
+    const topLevelComments = buildCommentTree(data.comments);
+
+    function findUser(userId: string): User | undefined {
+      const user = data.users.find((value) => value.id === userId);
+      return user;
+    }
+
+    function buildCommentTree(
+      comments: Comment[],
+      parentId: string | null = null,
+      level = 0
+    ): CommentUI[] {
+      return comments
+        .filter((ele) => ele.parentId === parentId)
+        .map((comment) => ({
+          ...comment,
+          nestedLevel: level ?? 0,
+          replies: buildCommentTree(comments, comment.id, level + 1),
+        }));
+    }
+
+    return { topLevelComments, findUser };
   },
 };
 </script>

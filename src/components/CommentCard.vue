@@ -1,8 +1,8 @@
 <template>
   <div :style="{ marginLeft: `${nestedLevel * 20}px` }" class="card">
-    <img :src="avatar" alt="User avatar" class="avatar" />
+    <img :src="user?.image" alt="User avatar" class="avatar" />
     <div class="content">
-      <h3>{{ username }}</h3>
+      <h3>{{ user?.name }}</h3>
       <p>{{ message }}</p>
       <span>{{ createdAt }}</span>
     </div>
@@ -10,11 +10,15 @@
 </template>
 
 <script lang="ts">
+import { User } from "@/type";
+
 export default {
   name: "CommentCard",
   props: {
-    avatar: String,
-    username: String,
+    user: {
+      type: Object as () => User | undefined,
+      required: true,
+    },
     message: String,
     createdAt: [String, Date],
     nestedLevel: {

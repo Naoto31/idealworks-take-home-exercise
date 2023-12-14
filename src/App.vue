@@ -1,6 +1,5 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png" />
-  <HomePage msg="Welcome the comment app!" />
+  <HomePage />
 </template>
 
 <script lang="ts">

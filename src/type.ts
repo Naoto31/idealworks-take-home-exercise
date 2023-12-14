@@ -1,14 +1,14 @@
 export interface User {
-  id: number;
+  id: string;
   name: string;
-  avatar: string;
+  image: string;
   role: string;
 }
 
-export interface Post {
-  id: number;
-  userId: number;
-  parentId: number | null; // `null` for top-level comments, ID of another Post for replies
+export interface Comment {
+  id: string;
+  userId: string;
+  parentId: string | null; // `null` for top-level comments, ID of another Post for replies
   message: string;
   createdAt: string | Date;
   score: number;
@@ -17,10 +17,10 @@ export interface Post {
 export interface DataModel {
   currentUser: User;
   users: User[];
-  comments: Post[];
+  comments: Comment[];
 }
 
-export interface PostUI extends Post {
-  nestedLevel?: number | null;
-  replies?: Post[];
+export interface CommentUI extends Comment {
+  nestedLevel: number;
+  replies?: CommentUI[];
 }
