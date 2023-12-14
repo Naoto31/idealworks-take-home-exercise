@@ -1,43 +1,40 @@
 <template>
-  <div :style="{ marginLeft: `${nestedLevel * 20}px` }" class="card">
-    <img :src="user?.image" alt="User avatar" class="avatar" />
+  <div :style="{ marginLeft: `${comment.nestedLevel * 20}px` }" class="card">
+    <img v-if="imageUrl" :src="imageUrl" alt="User avatar" class="avatar" />
     <div class="content">
-      <h3>{{ user?.name }}</h3>
-      <p>{{ message }}</p>
-      <span>{{ createdAt }}</span>
+      <h3>{{ comment.user?.name }}</h3>
+      <p>{{ comment.message }}</p>
+      <span>{{ comment.createdAt }}</span>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { User } from "@/type";
+import { defineComponent, computed } from "vue";
+import { CommentUI } from "@/type";
 
-export default {
+export default defineComponent({
   name: "CommentCard",
   props: {
-    user: {
-      type: Object as () => User | undefined,
+    comment: {
+      type: Object as () => CommentUI,
       required: true,
     },
-    message: String,
-    createdAt: [String, Date],
-    nestedLevel: {
-      type: Number,
-      default: 0,
-    },
   },
-};
+  setup(props) {
+    const imageUrl = computed(() => {
+      return props.comment.user?.image
+        ? require(`@/assets/images/${props.comment.user.image}`)
+        : "";
+    });
+    return { imageUrl };
+  },
+});
 </script>
 
 <style>
-.card {
-  border: 1px solid #ccc;
-  padding: 10px;
-  margin: 10px 0;
-}
 .avatar {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
+  width: 40px;
+  height: 40px;
 }
 </style>

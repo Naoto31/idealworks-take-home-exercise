@@ -22,5 +22,6 @@ export interface DataModel {
 
 export interface CommentUI extends Comment {
   nestedLevel: number;
+  user?: User;
   replies?: CommentUI[];
 }

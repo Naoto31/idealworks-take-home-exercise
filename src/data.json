@@ -2,7 +2,7 @@
   "currentUser": {
     "id": "user_3",
     "username": "Keiko Tanaka",
-    "image": "src/assets/images/keiko-tanaka.png",
+    "image": "keiko-tanaka.png",
     "role": "Marketing Coordinator"
   },
   "users": [
@@ -15,13 +15,13 @@
     {
       "id": "user_2",
       "name": "Kadji Bell",
-      "image": "srt/assets/images/kadji-bell.png",
+      "image": "kadji-bell.png",
       "role": "User"
     },
     {
       "id": "user_3",
       "name": "Keiko Tanaka",
-      "image": "src/assets/images/keiko-tanaka.png",
+      "image": "keiko-tanaka.png",
       "role": "Marketing Coordinator"
     }
   ],
