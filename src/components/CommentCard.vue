@@ -1,13 +1,14 @@
 <template>
   <div :style="{ marginLeft: `${comment.nestedLevel * 20}px` }" class="card">
-    <div
-      v-if="imageUrl"
-      :style="{ backgroundImage: `url(${imageUrl})` }"
-      class="avatar"
-    ></div>
-    <i v-else data-feather="user" stroke="#7F56D9"></i>
-
-    <div class="content">
+    <div class="header">
+      <div
+        v-if="imageUrl"
+        :style="{ backgroundImage: `url(${imageUrl})` }"
+        class="avatar"
+      ></div>
+      <i v-else data-feather="user" stroke="#7F56D9"></i>
+    </div>
+    <div class="body">
       <h3>{{ comment.user?.name }}</h3>
       <p>{{ comment.message }}</p>
       <span>{{ comment.createdAt }}</span>
@@ -44,6 +45,12 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+.card {
+  max-width: 732px;
+  padding: 16px;
+  border-radius: 8px;
+  border: 1px #eaecf0 solid;
+}
 .avatar {
   width: 32px;
   height: 32px;
