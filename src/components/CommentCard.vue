@@ -4,8 +4,10 @@
       <div
         v-if="imageUrl"
         :style="{ backgroundImage: `url(${imageUrl})` }"
-        class="avatar"
-      ></div>
+        class="image-container"
+      >
+        <div></div>
+      </div>
       <i v-else data-feather="user" stroke="#7F56D9"></i>
     </div>
     <div class="body">
@@ -51,14 +53,23 @@ export default defineComponent({
   border-radius: 8px;
   border: 1px #eaecf0 solid;
 }
-.avatar {
+.image-container {
+  display: flex;
   width: 32px;
   height: 32px;
   border-radius: 200px;
-  background-size: cover;
-  display: inline-flex;
-  justify-content: flex-end;
-  align-items: center;
+  background: lightgray 50% / cover;
   position: relative;
+
+  div {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    right: 0;
+    bottom: -2px;
+    border-radius: 8px;
+    border: 1.5px solid var(--White, #fff);
+    background: var(--Success-500, #12b76a);
+  }
 }
 </style>
