@@ -1,19 +1,9 @@
 <template>
   <div>
     <div v-for="comment in topLevelComments" :key="comment.id">
-      <CommentCard
-        :user="findUser(comment.userId)"
-        :message="comment.message"
-        :createdAt="comment.createdAt"
-        :nestedLevel="comment.nestedLevel"
-      />
+      <CommentCard :comment="comment" />
       <div v-for="reply in comment.replies" :key="reply.id">
-        <CommentCard
-          :user="findUser(reply.userId)"
-          :message="reply.message"
-          :createdAt="reply.createdAt"
-          :nestedLevel="reply.nestedLevel"
-        />
+        <CommentCard :comment="reply" />
       </div>
     </div>
   </div>
@@ -46,12 +36,13 @@ export default {
         .filter((ele) => ele.parentId === parentId)
         .map((comment) => ({
           ...comment,
-          nestedLevel: level ?? 0,
+          user: findUser(comment.userId),
+          nestedLevel: level,
           replies: buildCommentTree(comments, comment.id, level + 1),
         }));
     }
 
-    return { topLevelComments, findUser };
+    return { topLevelComments };
   },
 };
 </script>
