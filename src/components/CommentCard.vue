@@ -6,7 +6,7 @@
         :style="{ backgroundImage: `url(${imageUrl})` }"
         class="image-container"
       >
-        <div></div>
+        <div class="dot"></div>
       </div>
       <i v-else data-feather="user" stroke="#7F56D9"></i>
     </div>
@@ -61,7 +61,7 @@ export default defineComponent({
   background: lightgray 50% / cover;
   position: relative;
 
-  div {
+  .dot {
     position: absolute;
     width: 8px;
     height: 8px;
