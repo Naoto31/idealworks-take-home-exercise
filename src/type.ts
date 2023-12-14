@@ -12,11 +12,15 @@ export interface Post {
   message: string;
   createdAt: string | Date;
   score: number;
-  replies?: Post[];
 }
 
 export interface DataModel {
   currentUser: User;
   users: User[];
   comments: Post[];
+}
+
+export interface PostUI extends Post {
+  nestedLevel?: number | null;
+  replies?: Post[];
 }
