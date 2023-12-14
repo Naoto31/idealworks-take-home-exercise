@@ -4,11 +4,13 @@
       <div
         v-if="imageUrl"
         :style="{ backgroundImage: `url(${imageUrl})` }"
-        class="image-container"
+        class="avatar-container image"
       >
         <div class="dot"></div>
       </div>
-      <i v-else data-feather="user" stroke="#7F56D9"></i>
+      <div v-else class="avatar-container icon">
+        <i data-feather="user" stroke="#7F56D9"></i>
+      </div>
     </div>
     <div class="body">
       <h3>{{ comment.user?.name }}</h3>
@@ -49,17 +51,25 @@ export default defineComponent({
 <style lang="scss" scoped>
 .card {
   max-width: 732px;
-  padding: 16px;
   border-radius: 8px;
   border: 1px #eaecf0 solid;
+
+  .header {
+    padding: 16px;
+    border-bottom: 1px solid var(--Gray-200, #eaecf0);
+  }
+  .body {
+    padding: 16px;
+  }
 }
-.image-container {
+.avatar-container {
   display: flex;
   width: 32px;
   height: 32px;
   border-radius: 200px;
-  background: lightgray 50% / cover;
   position: relative;
+  justify-content: center;
+  align-items: center;
 
   .dot {
     position: absolute;
@@ -71,5 +81,14 @@ export default defineComponent({
     border: 1.5px solid var(--White, #fff);
     background: var(--Success-500, #12b76a);
   }
+}
+
+.image {
+  background: lightgray 50% / cover;
+}
+
+.icon {
+  border-radius: 200px;
+  background: var(--Primary-50, #f9f5ff);
 }
 </style>
