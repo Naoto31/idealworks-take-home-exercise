@@ -9,6 +9,7 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "feather-icons": "^4.29.1",
     "vue": "^3.2.13"
   },
   "devDependencies": {
