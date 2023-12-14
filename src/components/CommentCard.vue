@@ -4,9 +4,9 @@
       v-if="imageUrl"
       :style="{ backgroundImage: `url(${imageUrl})` }"
       class="avatar"
-    >
-      <!-- Additional elements inside avatar, if needed -->
-    </div>
+    ></div>
+    <i v-else data-feather="user" stroke="#7F56D9"></i>
+
     <div class="content">
       <h3>{{ comment.user?.name }}</h3>
       <p>{{ comment.message }}</p>
@@ -16,7 +16,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from "vue";
+import feather from "feather-icons";
+import { defineComponent, computed, ref } from "vue";
 import { CommentUI } from "@/type";
 
 export default defineComponent({
@@ -26,6 +27,9 @@ export default defineComponent({
       type: Object as () => CommentUI,
       required: true,
     },
+  },
+  beforeCreate() {
+    feather.replace();
   },
   setup(props) {
     const imageUrl = computed(() => {
