@@ -24,7 +24,7 @@
 </template>
 
 <script lang="ts">
-import CommentCard from "../components/Card.vue";
+import CommentCard from "../components/CommentCard.vue";
 import data from "../data.json";
 import { Post, PostUI } from "@/type";
 
