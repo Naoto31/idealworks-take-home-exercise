@@ -16,7 +16,7 @@ export default defineComponent({
 
 <style lang="scss">
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: "Inter", Avenir, Helvetica, Arial, sans-serif;
 }
 
 body {
