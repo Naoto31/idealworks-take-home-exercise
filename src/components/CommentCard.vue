@@ -7,6 +7,7 @@
     class="card"
   >
     <div class="header">
+      <!-- profile -->
       <div class="profile">
         <div
           v-if="imageUrl"
@@ -26,7 +27,19 @@
         />
         <span>{{ comment.createdAt }}</span>
       </div>
-      <div class="action-container">
+
+      <!-- action container -->
+      <div v-if="currentUser.id === comment.userId" class="right">
+        <div class="delete">
+          <i data-feather="trash-2" stroke="#B42318"></i>
+          <p>Delete</p>
+        </div>
+        <div class="edit">
+          <i data-feather="edit-3" stroke="#7F56D9"></i>
+          <p>Edit</p>
+        </div>
+      </div>
+      <div v-else class="right reply">
         <i data-feather="corner-up-left" stroke="#7F56D9"></i>
         <p>Reply</p>
       </div>
@@ -59,7 +72,7 @@ export default defineComponent({
     },
   },
   mounted() {
-    feather.replace();
+    feather.replace({ height: 20, width: 20 });
   },
   setup(props) {
     const imageUrl = computed(() => {
@@ -119,19 +132,44 @@ export default defineComponent({
       }
     }
 
-    .action-container {
+    .right {
       display: flex;
       align-items: center;
 
       p {
         margin: 0 0 0 8px;
-        color: #6941c6;
         font-size: 14px;
         font-weight: 600;
         line-height: 20px;
       }
     }
+
+    .reply {
+      p {
+        color: #6941c6;
+      }
+    }
+
+    .delete,
+    .edit {
+      display: flex;
+      align-items: center;
+    }
+
+    .delete {
+      p {
+        color: #b42318;
+      }
+    }
+
+    .edit {
+      margin-left: 16px;
+      p {
+        color: #6941c6;
+      }
+    }
   }
+
   .body {
     padding: 16px;
 
