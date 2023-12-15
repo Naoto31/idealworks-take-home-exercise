@@ -34,7 +34,7 @@
 </template>
 
 <script lang="ts">
-import { User } from "@/type";
+import { Comment, User } from "@/type";
 import { computed, defineComponent, ref } from "vue";
 
 export default defineComponent({
@@ -53,24 +53,26 @@ export default defineComponent({
         : "";
     });
 
-    function setComment() {
+    function setComment(): Comment {
       return {
+        id: generateUniqueId(),
         userId: props.currentUser.id,
         message: newComment.value,
         parentId: null, // adjust in case of reply
         createdAt: new Date(),
         score: 0, // init 0
-        id: generateUniqueId(),
       };
     }
 
-    function generateUniqueId() {
+    function generateUniqueId(): string {
       return `comment-${new Date().getTime()}`; // simple timestamp-based ID
     }
 
-    function saveCommentToLocalStorage(comment: any) {
+    function saveCommentToLocalStorage(comment: Comment) {
       const storedComments = localStorage.getItem("comments");
-      const comments: any[] = storedComments ? JSON.parse(storedComments) : [];
+      const comments: Comment[] = storedComments
+        ? JSON.parse(storedComments)
+        : [];
       comments.push(comment);
       localStorage.setItem("comments", JSON.stringify(comments));
     }
