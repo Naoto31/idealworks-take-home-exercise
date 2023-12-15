@@ -34,7 +34,7 @@
           <i data-feather="trash-2" stroke="#B42318"></i>
           <p>Delete</p>
         </div>
-        <div class="edit">
+        <div class="edit" @click="isEdit = true">
           <i data-feather="edit-3" stroke="#7F56D9"></i>
           <p>Edit</p>
         </div>
@@ -46,7 +46,19 @@
     </div>
     <div class="body">
       <div class="vote-container"></div>
-      <div class="message">{{ comment.message }}</div>
+      <div v-if="!isEdit" class="message">{{ comment.message }}</div>
+      <div v-else class="edit-right">
+        <div class="comment-box">
+          <textarea
+            v-model="commentMessage"
+            placeholder="Add a comment..."
+            class="comment-textarea"
+          ></textarea>
+        </div>
+        <div class="btn-container">
+          <button @click="updateComment">Done</button>
+        </div>
+      </div>
     </div>
   </div>
   <div v-if="comment.replies && comment.replies.length > 0" class="replies">
@@ -106,6 +118,21 @@ export default defineComponent({
       );
     };
 
+    const isEdit = ref(false);
+
+    const commentMessage = computed({
+      get() {
+        return props.comment.message;
+      },
+      set(value) {
+        // Here you can emit an event to the parent component to update the message
+        context.emit("update-message", {
+          commentId: props.comment.id,
+          message: value,
+        });
+      },
+    });
+
     const handleDeleteComment = (
       commentId: string,
       parentRef: string | null
@@ -113,12 +140,19 @@ export default defineComponent({
       context.emit("delete-comment", commentId, parentRef);
     };
 
+    function updateComment() {
+      isEdit.value = false;
+    }
+
     return {
       imageUrl,
       cardMaxWidth,
       formatCreatedAt,
       deleteComment,
       handleDeleteComment,
+      isEdit,
+      commentMessage,
+      updateComment,
     };
   },
 });
@@ -221,6 +255,62 @@ export default defineComponent({
       line-height: 20px;
       word-wrap: break-word;
       width: 100%;
+    }
+
+    .edit-right {
+      width: 100%;
+    }
+
+    .comment-box {
+      height: 108px;
+      width: calc(100% - 28px);
+      padding: 10px 14px;
+      background: white;
+      box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+      border-radius: 8px;
+      border: 1px solid #d0d5dd;
+      margin-bottom: 16px;
+    }
+
+    .comment-textarea {
+      height: 100%;
+      width: 100%;
+      color: #667085;
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 20px;
+      border: none;
+      outline: none;
+      box-shadow: none;
+      resize: none;
+      font-family: "Inter", Avenir, Helvetica, Arial, sans-serif;
+
+      &::placeholder {
+        font-family: "Inter", Avenir, Helvetica, Arial, sans-serif;
+        color: #667085;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 20px;
+      }
+    }
+  }
+
+  .btn-container {
+    text-align: right;
+
+    button {
+      height: 36px;
+      padding: 8px 14px;
+      background-color: #7f56d9;
+      color: white;
+      border: none;
+      box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+      border-radius: 8px;
+      cursor: pointer;
+
+      &:hover {
+        background-color: #3700b3;
+      }
     }
   }
 }
