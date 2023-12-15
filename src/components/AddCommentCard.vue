@@ -19,11 +19,13 @@
       </div>
     </div>
     <div class="body">
-      <textarea
-        v-model="newComment"
-        placeholder="Add a comment..."
-        class="comment-textarea"
-      ></textarea>
+      <div class="comment-box">
+        <textarea
+          v-model="newComment"
+          placeholder="Add a comment..."
+          class="comment-textarea"
+        ></textarea>
+      </div>
       <div class="btn-container">
         <button @click="sendComment">Send</button>
       </div>
@@ -126,25 +128,45 @@ export default defineComponent({
     background: lightgray 50% / cover;
   }
   .body {
-    height: 212px;
+    height: 180px;
     max-width: 732px;
     padding: 16px;
 
+    .comment-box {
+      height: 108px;
+      padding: 10px 14px;
+      background: white;
+      box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+      border-radius: 8px;
+      border: 1px solid #d0d5dd;
+      margin-bottom: 16px;
+    }
+
     .comment-textarea {
+      height: 100%;
       width: 100%;
-      margin-bottom: 8px;
+      color: #667085;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 24px;
+      border: none;
+      outline: none;
+      box-shadow: none;
     }
 
     .btn-container {
       text-align: left;
 
       button {
-        padding: 10px 16px;
-        background-color: #6200ee;
+        height: 36px;
+        padding: 8px 14px;
+        background-color: #7f56d9;
         color: white;
         border: none;
-        border-radius: 4px;
+        box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+        border-radius: 8px;
         cursor: pointer;
+
         &:hover {
           background-color: #3700b3;
         }
