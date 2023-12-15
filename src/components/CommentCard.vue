@@ -39,7 +39,7 @@
           <p>Edit</p>
         </div>
       </div>
-      <div v-else class="right reply">
+      <div v-else class="right reply" @click="isReply = true">
         <i data-feather="corner-up-left" stroke="#7F56D9"></i>
         <p>Reply</p>
       </div>
@@ -64,6 +64,15 @@
     </div>
   </div>
 
+  <AddCommentCard
+    v-if="isReply"
+    :style="{
+      marginLeft: `${comment.nestedLevel * 48}px`,
+      maxWidth: cardMaxWidth,
+    }"
+    :currentUser="currentUser"
+  />
+
   <!-- recursive card -->
   <div v-if="comment.replies && comment.replies.length > 0" class="replies">
     <CommentCard
@@ -83,11 +92,13 @@ import { defineComponent, computed, ref, watch } from "vue";
 import { CommentUI, User } from "@/type";
 import BadgeTag from "./ui/BadgeTag.vue";
 import { formatCreatedAt } from "@/utils";
+import AddCommentCard from "../components/AddCommentCard.vue";
 
 export default defineComponent({
   name: "CommentCard",
   components: {
     BadgeTag,
+    AddCommentCard,
   },
   props: {
     comment: {
@@ -116,6 +127,7 @@ export default defineComponent({
     });
 
     const isEdit = ref(false);
+    const isReply = ref(false);
     const commentMessage = ref(props.comment.message);
 
     watch(isEdit, (change) => {
@@ -164,6 +176,7 @@ export default defineComponent({
       deleteComment,
       handleDeleteComment,
       isEdit,
+      isReply,
       commentMessage,
       updateComment,
       handleUpdateComment,
