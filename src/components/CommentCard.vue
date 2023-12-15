@@ -23,7 +23,7 @@
       </div>
     </div>
     <div class="body">
-      <p>{{ comment.message }}</p>
+      <p class="message">{{ comment.message }}</p>
     </div>
   </div>
 </template>
@@ -97,6 +97,15 @@ export default defineComponent({
   }
   .body {
     padding: 16px;
+
+    .message {
+      margin: 0;
+      color: #667085;
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 20px;
+      word-wrap: break-word;
+    }
   }
 }
 .avatar-container {

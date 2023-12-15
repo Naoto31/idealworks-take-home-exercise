@@ -38,7 +38,7 @@
       "id": "2",
       "userId": "user_2",
       "parentId": "1",
-      "message": "@CassandraDunn I've experienced a similar problem before. First, check if any apps are running in the background unnecessarily. Also, go to Settings > Battery to see which apps are consuming the most power. Sometimes, a rogue app could be causing the drain. Try that and let us know if it helps!",
+      "message": "@Cassandra Dunn I've experienced a similar problem before. First, check if any apps are running in the background unnecessarily. Also, go to Settings > Battery to see which apps are consuming the most power. Sometimes, a rogue app could be causing the drain. Try that and let us know if it helps!",
       "createdAt": "2023-09-27T09:19:00.000Z",
       "score": 5
     },
