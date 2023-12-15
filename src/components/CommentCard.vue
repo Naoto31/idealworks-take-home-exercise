@@ -25,7 +25,7 @@
           text="You"
           class="badge"
         />
-        <span>{{ comment.createdAt }}</span>
+        <span>{{ formatCreatedAt(comment.createdAt) }}</span>
       </div>
 
       <!-- action container -->
@@ -63,6 +63,7 @@ import feather from "feather-icons";
 import { defineComponent, computed, ref } from "vue";
 import { CommentUI, User } from "@/type";
 import BadgeTag from "./ui/BadgeTag.vue";
+import { formatCreatedAt } from "@/utils";
 
 export default defineComponent({
   name: "CommentCard",
@@ -95,7 +96,7 @@ export default defineComponent({
       return `${initialMaxWidth - props.comment.nestedLevel * 48}px`;
     });
 
-    return { imageUrl, cardMaxWidth };
+    return { imageUrl, cardMaxWidth, formatCreatedAt };
   },
 });
 </script>
