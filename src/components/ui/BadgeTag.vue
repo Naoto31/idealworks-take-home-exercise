@@ -1,19 +1,33 @@
 <template>
-  <div class="tag">
+  <div class="tag" :class="statusClass">
     {{ text }}
   </div>
 </template>
 
 <script lang="ts">
-export default {
+import { defineComponent, PropType, computed } from "vue";
+
+export default defineComponent({
   name: "BadgeTag",
   props: {
     text: {
       type: String,
       required: true,
     },
+    status: {
+      type: String as PropType<"default" | "success">,
+      default: "default",
+    },
   },
-};
+  computed: {
+    statusClass(): Record<string, boolean> {
+      return {
+        default: this.status === "default",
+        success: this.status === "success",
+      };
+    },
+  },
+});
 </script>
 
 <style scoped>
@@ -29,5 +43,15 @@ export default {
   font-size: 12px;
   font-weight: 500;
   line-height: 18px;
+}
+
+.status-default {
+  color: #344054;
+  background: #f2f4f7;
+}
+
+.status-active {
+  color: #ffffff;
+  background: #28a745;
 }
 </style>
