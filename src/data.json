@@ -23,6 +23,12 @@
       "name": "Keiko Tanaka",
       "image": "keiko-tanaka.png",
       "role": "Marketing Coordinator"
+    },
+    {
+      "id": "user_4",
+      "name": "Arlene McCoy",
+      "image": "arlene-mccoy.png",
+      "role": "User"
     }
   ],
   "comments": [
@@ -44,8 +50,16 @@
     },
     {
       "id": "comment-3",
-      "userId": "user_3",
+      "userId": "user_4",
       "parentRef": "comment-2",
+      "message": "@Cassandra Dunn you're welcome! Don't hesitate to return if you have more questions. Battery drain issues can be frustrating, but with a bit of troubleshooting, you'll likely find the culprit. And remember, this community is here to support you!",
+      "createdAt": "1 week ago",
+      "score": 5
+    },
+    {
+      "id": "comment-4",
+      "userId": "user_3",
+      "parentRef": "comment-3",
       "message": " @Cassandra Dunn, @Kadji Bell has a good point. Background apps can be a sneaky culprit. Another thing to consider is your network connection. Poor cellular or Wi-Fi signal can lead to increased battery usage as your phone tries to maintain a connection. You might want to toggle on Airplane mode in areas with weak signals to see if that makes a difference.",
       "createdAt": "5 hours ago",
       "score": 2
