@@ -1,91 +1,93 @@
 <template>
-  <div
-    :style="{
-      marginLeft: `${comment.nestedLevel * 48}px`,
-      maxWidth: cardMaxWidth,
-    }"
-    class="card"
-  >
-    <div class="header">
-      <!-- profile -->
-      <div class="profile">
-        <div
-          v-if="imageUrl"
-          :style="{ backgroundImage: `url(${imageUrl})` }"
-          class="avatar-container image"
-        >
-          <div v-if="currentUser.id !== comment.userId" class="dot"></div>
+  <div>
+    <div
+      :style="{
+        marginLeft: `${comment.nestedLevel * 48}px`,
+        maxWidth: cardMaxWidth,
+      }"
+      class="card"
+    >
+      <div class="header">
+        <!-- profile -->
+        <div class="profile">
+          <div
+            v-if="imageUrl"
+            :style="{ backgroundImage: `url(${imageUrl})` }"
+            class="avatar-container image"
+          >
+            <div v-if="currentUser.id !== comment.userId" class="dot"></div>
+          </div>
+          <div v-else class="avatar-container icon">
+            <i data-feather="user" stroke="#7F56D9"></i>
+          </div>
+          <p>{{ comment.user?.name }}</p>
+          <BadgeTag
+            v-if="currentUser.id === comment.userId"
+            text="You"
+            class="badge"
+          />
+          <span>{{ formatCreatedAt(comment.createdAt) }}</span>
         </div>
-        <div v-else class="avatar-container icon">
-          <i data-feather="user" stroke="#7F56D9"></i>
+
+        <!-- action container -->
+        <div v-if="currentUser.id === comment.userId" class="right">
+          <div class="delete" @click="deleteComment">
+            <i data-feather="trash-2" stroke="#B42318"></i>
+            <p>Delete</p>
+          </div>
+          <div class="edit" @click="isEdit = true">
+            <i data-feather="edit-3" stroke="#7F56D9"></i>
+            <p>Edit</p>
+          </div>
         </div>
-        <p>{{ comment.user?.name }}</p>
-        <BadgeTag
-          v-if="currentUser.id === comment.userId"
-          text="You"
-          class="badge"
-        />
-        <span>{{ formatCreatedAt(comment.createdAt) }}</span>
+        <div v-else class="right reply" @click="isReply = true">
+          <i data-feather="corner-up-left" stroke="#7F56D9"></i>
+          <p>Reply</p>
+        </div>
       </div>
 
-      <!-- action container -->
-      <div v-if="currentUser.id === comment.userId" class="right">
-        <div class="delete" @click="deleteComment">
-          <i data-feather="trash-2" stroke="#B42318"></i>
-          <p>Delete</p>
+      <!-- card body -->
+      <div class="body">
+        <div class="vote-container"></div>
+        <div v-if="!isEdit" class="message">{{ comment.message }}</div>
+        <div v-else class="edit-right">
+          <div class="comment-box">
+            <textarea
+              v-model="commentMessage"
+              placeholder="Add a comment..."
+              class="comment-textarea"
+            ></textarea>
+          </div>
+          <div class="btn-container">
+            <button @click="updateComment">Done</button>
+          </div>
         </div>
-        <div class="edit" @click="isEdit = true">
-          <i data-feather="edit-3" stroke="#7F56D9"></i>
-          <p>Edit</p>
-        </div>
-      </div>
-      <div v-else class="right reply" @click="isReply = true">
-        <i data-feather="corner-up-left" stroke="#7F56D9"></i>
-        <p>Reply</p>
       </div>
     </div>
 
-    <!-- card body -->
-    <div class="body">
-      <div class="vote-container"></div>
-      <div v-if="!isEdit" class="message">{{ comment.message }}</div>
-      <div v-else class="edit-right">
-        <div class="comment-box">
-          <textarea
-            v-model="commentMessage"
-            placeholder="Add a comment..."
-            class="comment-textarea"
-          ></textarea>
-        </div>
-        <div class="btn-container">
-          <button @click="updateComment">Done</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <AddCommentCard
-    v-if="isReply"
-    :style="{
-      marginLeft: `${comment.nestedLevel * 48}px`,
-      maxWidth: cardMaxWidth,
-    }"
-    :currentUser="currentUser"
-    :parentRef="comment.id"
-    @comment-submitted="emitReply"
-  />
-
-  <!-- recursive card -->
-  <div v-if="comment.replies && comment.replies.length > 0" class="replies">
-    <CommentCard
-      v-for="reply in comment.replies"
-      :key="reply.id"
-      :comment="reply"
+    <AddCommentCard
+      v-if="isReply"
+      :style="{
+        marginLeft: `${comment.nestedLevel * 48}px`,
+        maxWidth: cardMaxWidth,
+      }"
       :currentUser="currentUser"
-      @delete-comment="handleDeleteComment"
-      @update-comment="handleUpdateComment"
-      @comment-submitted="hadnleAddReply"
+      :parentRef="comment.id"
+      @comment-submitted="emitReply"
     />
+
+    <!-- recursive card -->
+    <div v-if="comment.replies && comment.replies.length > 0" class="replies">
+      <CommentCard
+        v-for="reply in comment.replies"
+        :key="reply.id"
+        :comment="reply"
+        :currentUser="currentUser"
+        @delete-comment="handleDeleteComment"
+        @update-comment="handleUpdateComment"
+        @comment-submitted="hadnleAddReply"
+      />
+    </div>
   </div>
 </template>
 
