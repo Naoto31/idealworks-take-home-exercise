@@ -22,6 +22,7 @@ import CommentCard from "../components/CommentCard.vue";
 import AddCommentCard from "../components/AddCommentCard.vue";
 import data from "../data.json";
 import { Comment, User, CommentUI } from "../type";
+import { ref } from "vue";
 
 export default {
   name: "HomePage",
@@ -30,7 +31,7 @@ export default {
     AddCommentCard,
   },
   setup() {
-    const topLevelComments = buildCommentTree(data.comments);
+    const topLevelComments = ref(buildCommentTree(data.comments));
 
     function findUser(userId: string): User | undefined {
       const user = data.users.find((value) => value.id === userId);
@@ -52,9 +53,14 @@ export default {
         }));
     }
 
-    function addComment(comment: string) {
-      // Handle the submitted comment
-      console.log(comment);
+    function addComment(comment: Comment) {
+      const commentUI = {
+        ...comment,
+        user: findUser(comment.userId),
+        nestedLevel: 0,
+        replies: [],
+      };
+      topLevelComments.value.push(commentUI);
     }
 
     return { topLevelComments, currentUser: data.currentUser, addComment };

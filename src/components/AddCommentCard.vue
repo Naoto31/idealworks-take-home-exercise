@@ -45,9 +45,6 @@ export default defineComponent({
       required: true,
     },
   },
-  mounted() {
-    console.log(this.currentUser);
-  },
   setup(props, context) {
     const newComment = ref("");
     const imageUrl = computed(() => {
@@ -56,9 +53,33 @@ export default defineComponent({
         : "";
     });
 
+    function setComment() {
+      return {
+        userId: props.currentUser.id,
+        message: newComment.value,
+        parentId: null, // adjust in case of reply
+        createdAt: new Date(),
+        score: 0, // init 0
+        id: generateUniqueId(),
+      };
+    }
+
+    function generateUniqueId() {
+      return `comment-${new Date().getTime()}`; // simple timestamp-based ID
+    }
+
+    function saveCommentToLocalStorage(comment: any) {
+      const storedComments = localStorage.getItem("comments");
+      const comments: any[] = storedComments ? JSON.parse(storedComments) : [];
+      comments.push(comment);
+      localStorage.setItem("comments", JSON.stringify(comments));
+    }
+
     const sendComment = () => {
       if (newComment.value.trim() !== "") {
-        context.emit("comment-submitted", newComment.value);
+        const commentObj = setComment();
+        saveCommentToLocalStorage(commentObj);
+        context.emit("comment-submitted", commentObj);
         newComment.value = "";
       }
     };
