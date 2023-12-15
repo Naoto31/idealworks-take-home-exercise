@@ -152,6 +152,7 @@ export default defineComponent({
       border: none;
       outline: none;
       box-shadow: none;
+      resize: none;
     }
 
     .btn-container {
