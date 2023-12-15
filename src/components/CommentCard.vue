@@ -26,6 +26,10 @@
         />
         <span>{{ comment.createdAt }}</span>
       </div>
+      <div class="action-container">
+        <i data-feather="corner-up-left" stroke="#7F56D9"></i>
+        <p>Reply</p>
+      </div>
     </div>
     <div class="body">
       <p class="message">{{ comment.message }}</p>
@@ -83,6 +87,9 @@ export default defineComponent({
 
   .header {
     padding: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     border-bottom: 1px solid var(--Gray-200, #eaecf0);
 
     .profile {
@@ -109,6 +116,19 @@ export default defineComponent({
         font-style: normal;
         font-weight: 400;
         line-height: 24px; /* 150% */
+      }
+    }
+
+    .action-container {
+      display: flex;
+      align-items: center;
+
+      p {
+        margin: 0 0 0 8px;
+        color: #6941c6;
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 20px;
       }
     }
   }
