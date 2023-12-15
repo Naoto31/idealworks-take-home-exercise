@@ -30,7 +30,7 @@
 
       <!-- action container -->
       <div v-if="currentUser.id === comment.userId" class="right">
-        <div class="delete">
+        <div class="delete" @click="deleteComment">
           <i data-feather="trash-2" stroke="#B42318"></i>
           <p>Delete</p>
         </div>
@@ -55,6 +55,7 @@
       :key="reply.id"
       :comment="reply"
       :currentUser="currentUser"
+      @delete-comment="handleDeleteComment"
     />
   </div>
 </template>
@@ -84,7 +85,7 @@ export default defineComponent({
   mounted() {
     feather.replace({ height: 20, width: 20 });
   },
-  setup(props) {
+  setup(props, context) {
     const imageUrl = computed(() => {
       return props.comment.user?.image
         ? require(`@/assets/images/${props.comment.user.image}`)
@@ -97,7 +98,28 @@ export default defineComponent({
       return `${initialMaxWidth - props.comment.nestedLevel * 48}px`;
     });
 
-    return { imageUrl, cardMaxWidth, formatCreatedAt };
+    const deleteComment = () => {
+      context.emit(
+        "delete-comment",
+        props.comment.id,
+        props.comment.parentRef ?? null
+      );
+    };
+
+    const handleDeleteComment = (
+      commentId: string,
+      parentRef: string | null
+    ) => {
+      context.emit("delete-comment", commentId, parentRef);
+    };
+
+    return {
+      imageUrl,
+      cardMaxWidth,
+      formatCreatedAt,
+      deleteComment,
+      handleDeleteComment,
+    };
   },
 });
 </script>

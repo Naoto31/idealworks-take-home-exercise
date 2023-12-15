@@ -6,6 +6,7 @@
         :key="comment.id"
         :comment="comment"
         :currentUser="currentUser"
+        @delete-comment="deleteComment"
         class="one"
       />
       <div>
@@ -24,6 +25,7 @@ import AddCommentCard from "../components/AddCommentCard.vue";
 import data from "../data.json";
 import { Comment, User, CommentUI } from "../type";
 import { ref } from "vue";
+import { findParentComment } from "@/utils";
 
 export default {
   name: "HomePage",
@@ -64,7 +66,26 @@ export default {
       topLevelComments.value.push(commentUI);
     }
 
-    return { topLevelComments, currentUser: data.currentUser, addComment };
+    function deleteComment(commentId: string, parentRef: string) {
+      if (!parentRef) {
+        topLevelComments.value = topLevelComments.value.filter(
+          (value) => value.id !== commentId
+        );
+      } else {
+        const parent = findParentComment(topLevelComments.value, parentRef);
+        if (parent) {
+          parent.replies = parent.replies!.filter(
+            (value) => value.id !== commentId
+          );
+        }
+      }
+    }
+    return {
+      topLevelComments,
+      currentUser: data.currentUser,
+      addComment,
+      deleteComment,
+    };
   },
 };
 </script>
