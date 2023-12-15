@@ -44,6 +44,10 @@ export default defineComponent({
       type: Object as () => User,
       required: true,
     },
+    parentRef: {
+      type: String,
+      required: false,
+    },
   },
   setup(props, context) {
     const newComment = ref("");
@@ -58,7 +62,7 @@ export default defineComponent({
         id: generateUniqueId(),
         userId: props.currentUser.id,
         message: newComment.value,
-        parentId: null, // adjust in case of reply
+        parentRef: props.parentRef ?? null, // adjust in case of reply
         createdAt: new Date(),
         score: 0, // init 0
       };

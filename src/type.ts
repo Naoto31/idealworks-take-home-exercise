@@ -8,7 +8,7 @@ export interface User {
 export interface Comment {
   id: string;
   userId: string;
-  parentId: string | null; // `null` for top-level comments, ID of another Post for replies
+  parentRef: string | null; // `null` for top-level comments, ID of another Post for replies
   message: string;
   createdAt: string | Date;
   score: number;

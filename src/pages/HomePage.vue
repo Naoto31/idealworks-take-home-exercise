@@ -48,7 +48,7 @@ export default {
       level = 0
     ): CommentUI[] {
       return comments
-        .filter((ele) => ele.parentId === parentId)
+        .filter((ele) => ele.parentRef === parentId)
         .map((comment) => ({
           ...comment,
           user: findUser(comment.userId),
