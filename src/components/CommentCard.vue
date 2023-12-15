@@ -46,7 +46,7 @@
     </div>
     <div class="body">
       <div class="vote-container"></div>
-      <p class="message">{{ comment.message }}</p>
+      <div class="message">{{ comment.message }}</div>
     </div>
   </div>
   <div v-if="comment.replies && comment.replies.length > 0" class="replies">
@@ -92,7 +92,7 @@ export default defineComponent({
     });
 
     const cardMaxWidth = computed(() => {
-      const initialMaxWidth = 732;
+      const initialMaxWidth = 768;
       // Decrease max-width by 48px for each nested level
       return `${initialMaxWidth - props.comment.nestedLevel * 48}px`;
     });
@@ -104,13 +104,13 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .card {
-  max-width: 732px;
+  max-width: 768px;
   border-radius: 8px;
   border: 1px #eaecf0 solid;
   margin-bottom: 16px;
 
   .header {
-    padding: 16px;
+    padding: 16px 20px 16px 16px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -189,16 +189,16 @@ export default defineComponent({
     .vote-container {
       height: 50px;
       width: 44px;
-      margin-right: 16px;
     }
 
     .message {
-      margin: 0;
+      margin: 0 0 0 16px;
       color: #667085;
       font-size: 14px;
       font-weight: 400;
       line-height: 20px;
       word-wrap: break-word;
+      width: 100%;
     }
   }
 }

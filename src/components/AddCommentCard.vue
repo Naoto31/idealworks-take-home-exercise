@@ -98,12 +98,12 @@ export default defineComponent({
 <style lang="scss" scoped>
 .card {
   height: 294px;
-  max-width: 732px;
+  max-width: 768px;
   border-radius: 8px;
   border: 1px #eaecf0 solid;
 
   .header {
-    padding: 16px;
+    padding: 16px 20px 16px 16px;
     border-bottom: 1px solid var(--Gray-200, #eaecf0);
 
     .profile {
@@ -156,7 +156,7 @@ export default defineComponent({
   }
   .body {
     height: 180px;
-    max-width: 732px;
+    max-width: 768px;
     padding: 16px;
 
     .comment-box {
