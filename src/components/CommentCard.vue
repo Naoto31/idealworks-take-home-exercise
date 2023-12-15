@@ -44,6 +44,8 @@
         <p>Reply</p>
       </div>
     </div>
+
+    <!-- card body -->
     <div class="body">
       <div class="vote-container"></div>
       <div v-if="!isEdit" class="message">{{ comment.message }}</div>
@@ -61,6 +63,8 @@
       </div>
     </div>
   </div>
+
+  <!-- recursive card -->
   <div v-if="comment.replies && comment.replies.length > 0" class="replies">
     <CommentCard
       v-for="reply in comment.replies"
@@ -68,13 +72,14 @@
       :comment="reply"
       :currentUser="currentUser"
       @delete-comment="handleDeleteComment"
+      @update-comment="handleUpdateComment"
     />
   </div>
 </template>
 
 <script lang="ts">
 import feather from "feather-icons";
-import { defineComponent, computed, ref } from "vue";
+import { defineComponent, computed, ref, watch } from "vue";
 import { CommentUI, User } from "@/type";
 import BadgeTag from "./ui/BadgeTag.vue";
 import { formatCreatedAt } from "@/utils";
@@ -110,6 +115,15 @@ export default defineComponent({
       return `${initialMaxWidth - props.comment.nestedLevel * 48}px`;
     });
 
+    const isEdit = ref(false);
+    const commentMessage = ref(props.comment.message);
+
+    watch(isEdit, (change) => {
+      if (change) {
+        commentMessage.value = props.comment.message;
+      }
+    });
+
     const deleteComment = () => {
       context.emit(
         "delete-comment",
@@ -118,21 +132,6 @@ export default defineComponent({
       );
     };
 
-    const isEdit = ref(false);
-
-    const commentMessage = computed({
-      get() {
-        return props.comment.message;
-      },
-      set(value) {
-        // Here you can emit an event to the parent component to update the message
-        context.emit("update-message", {
-          commentId: props.comment.id,
-          message: value,
-        });
-      },
-    });
-
     const handleDeleteComment = (
       commentId: string,
       parentRef: string | null
@@ -140,7 +139,21 @@ export default defineComponent({
       context.emit("delete-comment", commentId, parentRef);
     };
 
+    const handleUpdateComment = (
+      commentId: string,
+      message: string,
+      parentRef: string | null
+    ) => {
+      context.emit("update-comment", commentId, message, parentRef);
+    };
+
     function updateComment() {
+      context.emit(
+        "update-comment",
+        props.comment.id,
+        commentMessage.value,
+        props.comment.parentRef
+      );
       isEdit.value = false;
     }
 
@@ -153,6 +166,7 @@ export default defineComponent({
       isEdit,
       commentMessage,
       updateComment,
+      handleUpdateComment,
     };
   },
 });

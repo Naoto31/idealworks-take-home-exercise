@@ -7,6 +7,7 @@
         :comment="comment"
         :currentUser="currentUser"
         @delete-comment="deleteComment"
+        @update-comment="updateComment"
         class="one"
       />
       <div>
@@ -80,11 +81,39 @@ export default {
         }
       }
     }
+
+    function updateComment(
+      commentId: string,
+      message: string,
+      parentRef: string | null
+    ) {
+      if (!parentRef) {
+        topLevelComments.value = topLevelComments.value.map((value) => {
+          if (value.id !== commentId) return value;
+          return {
+            ...value,
+            message: message,
+          };
+        });
+      } else {
+        const parent = findParentComment(topLevelComments.value, parentRef);
+        if (parent) {
+          parent.replies = parent.replies!.map((value) => {
+            if (value.id !== commentId) return value;
+            return {
+              ...value,
+              message: message,
+            };
+          });
+        }
+      }
+    }
     return {
       topLevelComments,
       currentUser: data.currentUser,
       addComment,
       deleteComment,
+      updateComment,
     };
   },
 };
