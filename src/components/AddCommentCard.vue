@@ -176,6 +176,14 @@ export default defineComponent({
       outline: none;
       box-shadow: none;
       resize: none;
+
+      &::placeholder {
+        font-family: "Inter", Avenir, Helvetica, Arial, sans-serif;
+        color: #667085;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 24px;
+      }
     }
 
     .btn-container {
