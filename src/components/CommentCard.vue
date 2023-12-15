@@ -1,6 +1,13 @@
 <template>
-  <div :style="{ marginLeft: `${comment.nestedLevel * 48}px` }" class="card">
+  <div
+    :style="{
+      marginLeft: `${comment.nestedLevel * 48}px`,
+      maxWidth: cardMaxWidth,
+    }"
+    class="card"
+  >
     <div class="header">
+      <p>{{ comment.user?.name }}</p>
       <div
         v-if="imageUrl"
         :style="{ backgroundImage: `url(${imageUrl})` }"
@@ -13,7 +20,6 @@
       </div>
     </div>
     <div class="body">
-      <h3>{{ comment.user?.name }}</h3>
       <p>{{ comment.message }}</p>
       <span>{{ comment.createdAt }}</span>
     </div>
@@ -43,7 +49,13 @@ export default defineComponent({
         : "";
     });
 
-    return { imageUrl };
+    const cardMaxWidth = computed(() => {
+      const initialMaxWidth = 732;
+      // Decrease max-width by 48px for each nested level
+      return `${initialMaxWidth - props.comment.nestedLevel * 48}px`;
+    });
+
+    return { imageUrl, cardMaxWidth };
   },
 });
 </script>
