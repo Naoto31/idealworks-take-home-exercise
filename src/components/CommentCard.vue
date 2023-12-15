@@ -48,6 +48,14 @@
       <p class="message">{{ comment.message }}</p>
     </div>
   </div>
+  <div v-if="comment.replies && comment.replies.length > 0" class="replies">
+    <CommentCard
+      v-for="reply in comment.replies"
+      :key="reply.id"
+      :comment="reply"
+      :currentUser="currentUser"
+    />
+  </div>
 </template>
 
 <script lang="ts">
@@ -97,6 +105,7 @@ export default defineComponent({
   max-width: 732px;
   border-radius: 8px;
   border: 1px #eaecf0 solid;
+  margin-bottom: 16px;
 
   .header {
     padding: 16px;
