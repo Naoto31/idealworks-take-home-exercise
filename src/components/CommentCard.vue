@@ -19,6 +19,11 @@
           <i data-feather="user" stroke="#7F56D9"></i>
         </div>
         <p>{{ comment.user?.name }}</p>
+        <BadgeTag
+          v-if="currentUser.id === comment.userId"
+          text="You"
+          class="badge"
+        />
         <span>{{ comment.createdAt }}</span>
       </div>
     </div>
@@ -31,13 +36,21 @@
 <script lang="ts">
 import feather from "feather-icons";
 import { defineComponent, computed, ref } from "vue";
-import { CommentUI } from "@/type";
+import { CommentUI, User } from "@/type";
+import BadgeTag from "./ui/BadgeTag.vue";
 
 export default defineComponent({
   name: "CommentCard",
+  components: {
+    BadgeTag,
+  },
   props: {
     comment: {
       type: Object as () => CommentUI,
+      required: true,
+    },
+    currentUser: {
+      type: Object as () => User,
       required: true,
     },
   },
@@ -83,6 +96,10 @@ export default defineComponent({
         font-style: normal;
         font-weight: 500;
         line-height: 24px;
+      }
+
+      .badge {
+        margin-left: 16px;
       }
 
       span {

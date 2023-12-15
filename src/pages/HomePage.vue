@@ -2,9 +2,13 @@
   <div class="container">
     <div>
       <div v-for="comment in topLevelComments" :key="comment.id">
-        <CommentCard :comment="comment" class="one" />
+        <CommentCard
+          :comment="comment"
+          :currentUser="currentUser"
+          class="one"
+        />
         <div v-for="reply in comment.replies" :key="reply.id" class="one">
-          <CommentCard :comment="reply" />
+          <CommentCard :comment="reply" :currentUser="currentUser" />
         </div>
       </div>
       <div>
