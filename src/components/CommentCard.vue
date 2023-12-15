@@ -45,6 +45,7 @@
       </div>
     </div>
     <div class="body">
+      <div class="vote-container"></div>
       <p class="message">{{ comment.message }}</p>
     </div>
   </div>
@@ -183,6 +184,13 @@ export default defineComponent({
 
   .body {
     padding: 16px;
+    display: flex;
+
+    .vote-container {
+      height: 50px;
+      width: 44px;
+      margin-right: 16px;
+    }
 
     .message {
       margin: 0;
