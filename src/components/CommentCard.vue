@@ -14,7 +14,7 @@
           :style="{ backgroundImage: `url(${imageUrl})` }"
           class="avatar-container image"
         >
-          <div class="dot"></div>
+          <div v-if="currentUser.id !== comment.userId" class="dot"></div>
         </div>
         <div v-else class="avatar-container icon">
           <i data-feather="user" stroke="#7F56D9"></i>
@@ -135,6 +135,7 @@ export default defineComponent({
     .right {
       display: flex;
       align-items: center;
+      cursor: pointer;
 
       p {
         margin: 0 0 0 8px;
