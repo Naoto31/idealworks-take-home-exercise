@@ -19,11 +19,11 @@
           <i data-feather="user" stroke="#7F56D9"></i>
         </div>
         <p>{{ comment.user?.name }}</p>
+        <span>{{ comment.createdAt }}</span>
       </div>
     </div>
     <div class="body">
       <p>{{ comment.message }}</p>
-      <span>{{ comment.createdAt }}</span>
     </div>
   </div>
 </template>
@@ -83,6 +83,15 @@ export default defineComponent({
         font-style: normal;
         font-weight: 500;
         line-height: 24px;
+      }
+
+      span {
+        margin-left: 16px;
+        color: var(--Gray-500, #667085);
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 24px; /* 150% */
       }
     }
   }
