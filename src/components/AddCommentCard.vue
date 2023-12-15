@@ -46,7 +46,7 @@ export default defineComponent({
     },
     parentRef: {
       type: String,
-      required: false,
+      default: null,
     },
   },
   setup(props, context) {

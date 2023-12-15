@@ -71,6 +71,8 @@
       maxWidth: cardMaxWidth,
     }"
     :currentUser="currentUser"
+    :parentRef="comment.id"
+    @comment-submitted="emitReply"
   />
 
   <!-- recursive card -->
@@ -82,6 +84,7 @@
       :currentUser="currentUser"
       @delete-comment="handleDeleteComment"
       @update-comment="handleUpdateComment"
+      @comment-submitted="hadnleAddReply"
     />
   </div>
 </template>
@@ -128,6 +131,7 @@ export default defineComponent({
 
     const isEdit = ref(false);
     const isReply = ref(false);
+    const parentRef = ref(props.comment.parentRef ?? null);
     const commentMessage = ref(props.comment.message);
 
     watch(isEdit, (change) => {
@@ -169,6 +173,15 @@ export default defineComponent({
       isEdit.value = false;
     }
 
+    function emitReply(commentObj: Comment) {
+      context.emit("comment-submitted", commentObj);
+      isReply.value = false;
+    }
+
+    function hadnleAddReply(commentObj: Comment) {
+      context.emit("comment-submitted", commentObj);
+    }
+
     return {
       imageUrl,
       cardMaxWidth,
@@ -180,6 +193,9 @@ export default defineComponent({
       commentMessage,
       updateComment,
       handleUpdateComment,
+      emitReply,
+      parentRef,
+      hadnleAddReply,
     };
   },
 });

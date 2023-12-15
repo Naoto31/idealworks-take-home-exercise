@@ -8,6 +8,7 @@
         :currentUser="currentUser"
         @delete-comment="deleteComment"
         @update-comment="updateComment"
+        @comment-submitted="addComment"
         class="one"
       />
       <div>
@@ -58,13 +59,30 @@ export default {
     }
 
     function addComment(comment: Comment) {
-      const commentUI = {
-        ...comment,
-        user: findUser(comment.userId),
-        nestedLevel: 0,
-        replies: [],
-      };
-      topLevelComments.value.push(commentUI);
+      if (!comment.parentRef) {
+        const commentUI = {
+          ...comment,
+          user: findUser(comment.userId),
+          nestedLevel: 0,
+          replies: [],
+        };
+        topLevelComments.value.push(commentUI);
+      } else {
+        const parent = findParentComment(
+          topLevelComments.value,
+          comment.parentRef
+        );
+        if (parent) {
+          parent.replies = parent.replies ?? [];
+          const commentUI = {
+            ...comment,
+            user: findUser(comment.userId),
+            nestedLevel: parent.nestedLevel + 1,
+            replies: [],
+          };
+          parent.replies.push(commentUI);
+        }
+      }
     }
 
     function deleteComment(commentId: string, parentRef: string) {
