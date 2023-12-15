@@ -1,9 +1,17 @@
 <template>
   <div class="container">
-    <div v-for="comment in topLevelComments" :key="comment.id">
-      <CommentCard :comment="comment" class="one" />
-      <div v-for="reply in comment.replies" :key="reply.id" class="one">
-        <CommentCard :comment="reply" />
+    <div>
+      <div v-for="comment in topLevelComments" :key="comment.id">
+        <CommentCard :comment="comment" class="one" />
+        <div v-for="reply in comment.replies" :key="reply.id" class="one">
+          <CommentCard :comment="reply" />
+        </div>
+      </div>
+      <div>
+        <AddCommentCard
+          :currentUser="currentUser"
+          @comment-submitted="addComment"
+        />
       </div>
     </div>
   </div>
@@ -11,6 +19,7 @@
 
 <script lang="ts">
 import CommentCard from "../components/CommentCard.vue";
+import AddCommentCard from "../components/AddCommentCard.vue";
 import data from "../data.json";
 import { Comment, User, CommentUI } from "../type";
 
@@ -18,6 +27,7 @@ export default {
   name: "HomePage",
   components: {
     CommentCard,
+    AddCommentCard,
   },
   setup() {
     const topLevelComments = buildCommentTree(data.comments);
@@ -42,7 +52,12 @@ export default {
         }));
     }
 
-    return { topLevelComments };
+    function addComment(comment: string) {
+      // Handle the submitted comment
+      console.log(comment);
+    }
+
+    return { topLevelComments, currentUser: data.currentUser, addComment };
   },
 };
 </script>
