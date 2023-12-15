@@ -44,6 +44,9 @@ export const findParentComment = (
 ): CommentUI | null => {
   for (let i = 0; i < comments.length; i++) {
     const comment = comments[i];
+    if (comment.id === parentRef) {
+      return comment;
+    }
     if (comment.replies) {
       const parent = comment.replies.find((reply) => reply.id === parentRef);
       if (parent) {
