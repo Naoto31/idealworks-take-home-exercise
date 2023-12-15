@@ -7,16 +7,18 @@
     class="card"
   >
     <div class="header">
-      <p>{{ comment.user?.name }}</p>
-      <div
-        v-if="imageUrl"
-        :style="{ backgroundImage: `url(${imageUrl})` }"
-        class="avatar-container image"
-      >
-        <div class="dot"></div>
-      </div>
-      <div v-else class="avatar-container icon">
-        <i data-feather="user" stroke="#7F56D9"></i>
+      <div class="profile">
+        <div
+          v-if="imageUrl"
+          :style="{ backgroundImage: `url(${imageUrl})` }"
+          class="avatar-container image"
+        >
+          <div class="dot"></div>
+        </div>
+        <div v-else class="avatar-container icon">
+          <i data-feather="user" stroke="#7F56D9"></i>
+        </div>
+        <p>{{ comment.user?.name }}</p>
       </div>
     </div>
     <div class="body">
@@ -69,6 +71,20 @@ export default defineComponent({
   .header {
     padding: 16px;
     border-bottom: 1px solid var(--Gray-200, #eaecf0);
+
+    .profile {
+      display: flex;
+      align-items: center;
+
+      p {
+        margin: 0 0 0 16px;
+        color: var(--Gray-700, #344054);
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 24px;
+      }
+    }
   }
   .body {
     padding: 16px;
