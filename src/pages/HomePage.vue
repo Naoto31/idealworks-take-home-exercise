@@ -25,9 +25,13 @@
 import CommentCard from "../components/CommentCard.vue";
 import AddCommentCard from "../components/AddCommentCard.vue";
 import data from "../data.json";
-import { Comment, User, CommentUI } from "../type";
+import { Comment } from "../type";
 import { ref } from "vue";
-import { findParentComment } from "@/helpers/comment.helper";
+import {
+  findParentComment,
+  buildCommentTree,
+  findUser,
+} from "@/helpers/comment.helper";
 import {
   getStoredCommentsInLocalStorage,
   updateCommentsToLocalStorage,
@@ -44,26 +48,6 @@ export default {
     const topLevelComments = ref(
       buildCommentTree([...storedComments, ...data.comments])
     );
-
-    function findUser(userId: string): User | undefined {
-      const user = data.users.find((value) => value.id === userId);
-      return user;
-    }
-
-    function buildCommentTree(
-      comments: Comment[],
-      parentId: string | null = null,
-      level = 0
-    ): CommentUI[] {
-      return comments
-        .filter((ele) => ele.parentRef === parentId)
-        .map((comment) => ({
-          ...comment,
-          user: findUser(comment.userId),
-          nestedLevel: level,
-          replies: buildCommentTree(comments, comment.id, level + 1),
-        }));
-    }
 
     function addComment(comment: Comment) {
       if (!comment.parentRef) {
