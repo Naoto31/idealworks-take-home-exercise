@@ -106,6 +106,10 @@ export default {
           );
         }
       }
+      // update to local storage
+      const storedComments = getStoredCommentsInLocalStorage();
+      const updated = storedComments.filter((value) => value.id !== commentId);
+      localStorage.setItem("comments", JSON.stringify(updated));
     }
 
     function updateComment(
@@ -133,7 +137,18 @@ export default {
           });
         }
       }
+      // update to local storage
+      const storedComments = getStoredCommentsInLocalStorage();
+      const updated = storedComments.map((value) => {
+        if (value.id !== commentId) return value;
+        return {
+          ...value,
+          message: message,
+        };
+      });
+      localStorage.setItem("comments", JSON.stringify(updated));
     }
+
     return {
       topLevelComments,
       currentUser: data.currentUser,
