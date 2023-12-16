@@ -7,9 +7,7 @@
         :comment="comment"
         class="one"
       />
-      <div>
-        <AddCommentCard />
-      </div>
+      <AddCommentCard />
     </div>
   </div>
 </template>
