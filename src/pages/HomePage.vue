@@ -26,8 +26,12 @@ import CommentCard from "../components/CommentCard.vue";
 import AddCommentCard from "../components/AddCommentCard.vue";
 import data from "../data.json";
 import { Comment, User, CommentUI } from "../type";
-import { onMounted, ref } from "vue";
-import { findParentComment } from "@/utils";
+import { ref } from "vue";
+import { findParentComment } from "@/helpers/comment.helper";
+import {
+  getStoredCommentsInLocalStorage,
+  updateCommentsToLocalStorage,
+} from "@/services/localStorage";
 
 export default {
   name: "HomePage",
@@ -40,11 +44,6 @@ export default {
     const topLevelComments = ref(
       buildCommentTree([...storedComments, ...data.comments])
     );
-
-    function getStoredCommentsInLocalStorage(): Comment[] {
-      const storedComments = localStorage.getItem("comments");
-      return storedComments ? JSON.parse(storedComments) : [];
-    }
 
     function findUser(userId: string): User | undefined {
       const user = data.users.find((value) => value.id === userId);
@@ -106,10 +105,7 @@ export default {
           );
         }
       }
-      // update to local storage
-      const storedComments = getStoredCommentsInLocalStorage();
-      const updated = storedComments.filter((value) => value.id !== commentId);
-      localStorage.setItem("comments", JSON.stringify(updated));
+      updateCommentsToLocalStorage(commentId, "delete");
     }
 
     function updateComment(
@@ -137,16 +133,7 @@ export default {
           });
         }
       }
-      // update to local storage
-      const storedComments = getStoredCommentsInLocalStorage();
-      const updated = storedComments.map((value) => {
-        if (value.id !== commentId) return value;
-        return {
-          ...value,
-          message: message,
-        };
-      });
-      localStorage.setItem("comments", JSON.stringify(updated));
+      updateCommentsToLocalStorage(commentId, "update", { message: message });
     }
 
     return {

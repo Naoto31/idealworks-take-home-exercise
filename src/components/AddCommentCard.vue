@@ -36,6 +36,7 @@
 <script lang="ts">
 import { Comment, User } from "@/type";
 import { computed, defineComponent, ref } from "vue";
+import { saveCommentToLocalStorage } from "@/services/localStorage";
 
 export default defineComponent({
   name: "AddCommentCard",
@@ -70,15 +71,6 @@ export default defineComponent({
 
     function generateUniqueId(): string {
       return `comment-${new Date().getTime()}`; // simple timestamp-based ID
-    }
-
-    function saveCommentToLocalStorage(comment: Comment) {
-      const storedComments = localStorage.getItem("comments");
-      const comments: Comment[] = storedComments
-        ? JSON.parse(storedComments)
-        : [];
-      comments.push(comment);
-      localStorage.setItem("comments", JSON.stringify(comments));
     }
 
     const sendComment = () => {
