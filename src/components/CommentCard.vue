@@ -15,14 +15,14 @@
             :style="{ backgroundImage: `url(${imageUrl})` }"
             class="avatar-container image"
           >
-            <div v-if="currentUser.id !== comment.userId" class="dot"></div>
+            <div v-if="currentUser?.id !== comment.userId" class="dot"></div>
           </div>
           <div v-else class="avatar-container icon">
             <i data-feather="user" stroke="#7F56D9"></i>
           </div>
           <p>{{ comment.user?.name }}</p>
           <BadgeTag
-            v-if="currentUser.id === comment.userId"
+            v-if="currentUser?.id === comment.userId"
             text="You"
             class="badge"
           />
@@ -30,7 +30,7 @@
         </div>
 
         <!-- action container -->
-        <div v-if="currentUser.id === comment.userId" class="right">
+        <div v-if="currentUser?.id === comment.userId" class="right">
           <div class="delete" @click="deleteComment">
             <i data-feather="trash-2" stroke="#B42318"></i>
             <p>Delete</p>
@@ -95,6 +95,7 @@ import BadgeTag from "./ui/BadgeTag.vue";
 import { formatCreatedAt } from "@/utils";
 import AddCommentCard from "../components/AddCommentCard.vue";
 import { useCommentsStore } from "@/store/comment";
+import { useUserStore } from "@/store/user";
 
 export default defineComponent({
   name: "CommentCard",
@@ -107,16 +108,14 @@ export default defineComponent({
       type: Object as () => CommentUI,
       required: true,
     },
-    currentUser: {
-      type: Object as () => User,
-      required: true,
-    },
   },
   mounted() {
     feather.replace({ height: 20, width: 20 });
   },
-  setup(props, context) {
+  setup(props) {
     const commentStore = useCommentsStore();
+    const userStore = useUserStore();
+    const currentUser = userStore.currentUser;
     const imageUrl = computed(() => {
       return props.comment.user?.image
         ? require(`@/assets/images/${props.comment.user.image}`)
@@ -166,6 +165,7 @@ export default defineComponent({
       commentMessage,
       updateComment,
       parentRef,
+      currentUser,
     };
   },
 });

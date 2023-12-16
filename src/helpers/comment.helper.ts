@@ -45,14 +45,14 @@ export function buildCommentTree(
 }
 
 export function setComment(
-  props: { currentUser: User; parentRef: string },
+  data: { currentUser: User; parentRef: string },
   newComment: string
 ): Comment {
   return {
     id: generateUniqueId(),
-    userId: props.currentUser.id,
+    userId: data.currentUser.id,
     message: newComment,
-    parentRef: props.parentRef ?? null, // adjust in case of reply
+    parentRef: data.parentRef ?? null,
     createdAt: new Date(),
     score: 0, // init 0
   };

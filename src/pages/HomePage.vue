@@ -5,11 +5,10 @@
         v-for="comment in topLevelComments"
         :key="comment.id"
         :comment="comment"
-        :currentUser="currentUser"
         class="one"
       />
       <div>
-        <AddCommentCard :currentUser="currentUser" />
+        <AddCommentCard />
       </div>
     </div>
   </div>
@@ -17,10 +16,10 @@
 
 <script lang="ts">
 import { useCommentsStore } from "@/store/comment";
+import { useUserStore } from "@/store/user";
 import CommentCard from "../components/CommentCard.vue";
 import AddCommentCard from "../components/AddCommentCard.vue";
 import data from "../data.json";
-import { Comment } from "@/type";
 import { computed } from "vue";
 
 export default {
@@ -31,7 +30,10 @@ export default {
   },
   setup() {
     const commentStore = useCommentsStore();
+    const userStore = useUserStore();
+
     commentStore.initializeComments(data.comments);
+    userStore.setCurrentUser(data.currentUser);
 
     const topLevelComments = computed(() => commentStore.topLevelComments);
     const currentUser = data.currentUser;

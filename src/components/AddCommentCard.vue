@@ -38,14 +38,11 @@ import { User } from "@/type";
 import { computed, defineComponent, ref } from "vue";
 import { setComment } from "@/helpers/comment.helper";
 import { useCommentsStore } from "@/store/comment";
+import { useUserStore } from "@/store/user";
 
 export default defineComponent({
   name: "AddCommentCard",
   props: {
-    currentUser: {
-      type: Object as () => User,
-      required: true,
-    },
     parentRef: {
       type: String,
       default: null,
@@ -54,22 +51,28 @@ export default defineComponent({
   setup(props) {
     const newComment = ref("");
     const commentStore = useCommentsStore();
+    const userStore = useUserStore();
+    const currentUser = userStore.currentUser;
 
     const imageUrl = computed(() => {
-      return props.currentUser?.image
-        ? require(`@/assets/images/${props.currentUser.image}`)
+      return userStore.currentUser?.image
+        ? require(`@/assets/images/${userStore.currentUser.image}`)
         : "";
     });
 
     const sendComment = () => {
       if (newComment.value.trim() !== "") {
-        const commentObj = setComment(props, newComment.value);
+        const data = {
+          currentUser: currentUser,
+          parentRef: props.parentRef,
+        } as { currentUser: User; parentRef: string };
+        const commentObj = setComment(data, newComment.value);
         commentStore.addComment(commentObj);
         newComment.value = "";
       }
     };
 
-    return { imageUrl, newComment, sendComment };
+    return { imageUrl, newComment, sendComment, currentUser };
   },
 });
 </script>

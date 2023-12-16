@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { Comment, User, CommentUI } from "../type";
+import { Comment, CommentUI } from "../type";
 import {
   buildCommentTree,
   findUser,
