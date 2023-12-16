@@ -39,7 +39,7 @@ export function buildCommentTree(
     .map((comment) => ({
       ...comment,
       user: findUser(comment.userId),
-      nestedLevel: level,
+      nestedLevel: level > 4 ? 3 : level, // max nested level: 3
       replies: buildCommentTree(comments, comment.id, level + 1),
     }));
 }
