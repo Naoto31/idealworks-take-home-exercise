@@ -6,9 +6,6 @@
         :key="comment.id"
         :comment="comment"
         :currentUser="currentUser"
-        @delete-comment="deleteComment"
-        @update-comment="updateComment"
-        @comment-submitted="addComment"
         class="one"
       />
       <div>
@@ -39,29 +36,9 @@ export default {
     const topLevelComments = computed(() => commentStore.topLevelComments);
     const currentUser = data.currentUser;
 
-    const addComment = (comment: Comment) => {
-      commentStore.addComment(comment);
-    };
-
-    const deleteComment = (commentId: string, parentRef: string) => {
-      commentStore.deleteComment(commentId, parentRef);
-    };
-
-    const updateComment = (
-      commentId: string,
-      message: string,
-      parentRef: string
-    ) => {
-      console.log("here");
-      commentStore.updateComment(commentId, message, parentRef);
-    };
-
     return {
       topLevelComments,
       currentUser,
-      addComment,
-      deleteComment,
-      updateComment,
     };
   },
 };

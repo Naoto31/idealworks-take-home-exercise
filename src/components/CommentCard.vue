@@ -73,7 +73,6 @@
       }"
       :currentUser="currentUser"
       :parentRef="comment.id"
-      @comment-submitted="emitReply"
     />
 
     <!-- recursive card -->
@@ -83,9 +82,6 @@
         :key="reply.id"
         :comment="reply"
         :currentUser="currentUser"
-        @delete-comment="handleDeleteComment"
-        @update-comment="handleUpdateComment"
-        @comment-submitted="hadnleAddReply"
       />
     </div>
   </div>
@@ -98,6 +94,7 @@ import { CommentUI, User } from "@/type";
 import BadgeTag from "./ui/BadgeTag.vue";
 import { formatCreatedAt } from "@/utils";
 import AddCommentCard from "../components/AddCommentCard.vue";
+import { useCommentsStore } from "@/store/comment";
 
 export default defineComponent({
   name: "CommentCard",
@@ -119,6 +116,7 @@ export default defineComponent({
     feather.replace({ height: 20, width: 20 });
   },
   setup(props, context) {
+    const commentStore = useCommentsStore();
     const imageUrl = computed(() => {
       return props.comment.user?.image
         ? require(`@/assets/images/${props.comment.user.image}`)
@@ -143,31 +141,14 @@ export default defineComponent({
     });
 
     const deleteComment = () => {
-      context.emit(
-        "delete-comment",
+      commentStore.deleteComment(
         props.comment.id,
-        props.comment.parentRef ?? null
+        props.comment?.parentRef ?? null
       );
     };
 
-    const handleDeleteComment = (
-      commentId: string,
-      parentRef: string | null
-    ) => {
-      context.emit("delete-comment", commentId, parentRef);
-    };
-
-    const handleUpdateComment = (
-      commentId: string,
-      message: string,
-      parentRef: string | null
-    ) => {
-      context.emit("update-comment", commentId, message, parentRef);
-    };
-
     function updateComment() {
-      context.emit(
-        "update-comment",
+      commentStore.updateComment(
         props.comment.id,
         commentMessage.value,
         props.comment.parentRef
@@ -175,29 +156,16 @@ export default defineComponent({
       isEdit.value = false;
     }
 
-    function emitReply(commentObj: Comment) {
-      context.emit("comment-submitted", commentObj);
-      isReply.value = false;
-    }
-
-    function hadnleAddReply(commentObj: Comment) {
-      context.emit("comment-submitted", commentObj);
-    }
-
     return {
       imageUrl,
       cardMaxWidth,
       formatCreatedAt,
       deleteComment,
-      handleDeleteComment,
       isEdit,
       isReply,
       commentMessage,
       updateComment,
-      handleUpdateComment,
-      emitReply,
       parentRef,
-      hadnleAddReply,
     };
   },
 });

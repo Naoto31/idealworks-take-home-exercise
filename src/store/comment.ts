@@ -50,7 +50,7 @@ export const useCommentsStore = defineStore("comments", {
         }
       }
     },
-    deleteComment(commentId: string, parentRef: string) {
+    deleteComment(commentId: string, parentRef: string | null) {
       if (!parentRef) {
         this.topLevelComments = this.topLevelComments.filter(
           (value) => value.id !== commentId
