@@ -37,3 +37,7 @@ export const formatCreatedAt = (createdAt: string | Date): string => {
     return `${years} years ago`;
   }
 };
+
+export function generateUniqueId(): string {
+  return `comment-${new Date().getTime()}`; // simple timestamp-based ID
+}

@@ -34,9 +34,10 @@
 </template>
 
 <script lang="ts">
-import { Comment, User } from "@/type";
+import { User } from "@/type";
 import { computed, defineComponent, ref } from "vue";
-import { saveCommentToLocalStorage } from "@/services/localStorage";
+import { setComment } from "@/helpers/comment.helper";
+import { useCommentsStore } from "@/store/comment";
 
 export default defineComponent({
   name: "AddCommentCard",
@@ -50,34 +51,20 @@ export default defineComponent({
       default: null,
     },
   },
-  setup(props, context) {
+  setup(props) {
     const newComment = ref("");
+    const commentStore = useCommentsStore();
+
     const imageUrl = computed(() => {
       return props.currentUser?.image
         ? require(`@/assets/images/${props.currentUser.image}`)
         : "";
     });
 
-    function setComment(): Comment {
-      return {
-        id: generateUniqueId(),
-        userId: props.currentUser.id,
-        message: newComment.value,
-        parentRef: props.parentRef ?? null, // adjust in case of reply
-        createdAt: new Date(),
-        score: 0, // init 0
-      };
-    }
-
-    function generateUniqueId(): string {
-      return `comment-${new Date().getTime()}`; // simple timestamp-based ID
-    }
-
     const sendComment = () => {
       if (newComment.value.trim() !== "") {
-        const commentObj = setComment();
-        saveCommentToLocalStorage(commentObj);
-        context.emit("comment-submitted", commentObj);
+        const commentObj = setComment(props, newComment.value);
+        commentStore.addComment(commentObj);
         newComment.value = "";
       }
     };

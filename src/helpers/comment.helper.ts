@@ -1,5 +1,6 @@
 import { Comment, CommentUI, User } from "../type";
 import data from "../data.json";
+import { generateUniqueId } from "@/utils";
 
 export const findParentComment = (
   comments: CommentUI[],
@@ -41,4 +42,18 @@ export function buildCommentTree(
       nestedLevel: level,
       replies: buildCommentTree(comments, comment.id, level + 1),
     }));
+}
+
+export function setComment(
+  props: { currentUser: User; parentRef: string },
+  newComment: string
+): Comment {
+  return {
+    id: generateUniqueId(),
+    userId: props.currentUser.id,
+    message: newComment,
+    parentRef: props.parentRef ?? null, // adjust in case of reply
+    createdAt: new Date(),
+    score: 0, // init 0
+  };
 }

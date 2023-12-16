@@ -12,30 +12,19 @@
         class="one"
       />
       <div>
-        <AddCommentCard
-          :currentUser="currentUser"
-          @comment-submitted="addComment"
-        />
+        <AddCommentCard :currentUser="currentUser" />
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
+import { useCommentsStore } from "@/store/comment";
 import CommentCard from "../components/CommentCard.vue";
 import AddCommentCard from "../components/AddCommentCard.vue";
 import data from "../data.json";
-import { Comment } from "../type";
-import { ref } from "vue";
-import {
-  findParentComment,
-  buildCommentTree,
-  findUser,
-} from "@/helpers/comment.helper";
-import {
-  getStoredCommentsInLocalStorage,
-  updateCommentsToLocalStorage,
-} from "@/services/localStorage";
+import { Comment } from "@/type";
+import { computed } from "vue";
 
 export default {
   name: "HomePage",
@@ -44,85 +33,32 @@ export default {
     AddCommentCard,
   },
   setup() {
-    const storedComments = getStoredCommentsInLocalStorage();
-    const topLevelComments = ref(
-      buildCommentTree([...storedComments, ...data.comments])
-    );
+    const commentStore = useCommentsStore();
+    commentStore.initializeComments(data.comments);
 
-    function addComment(comment: Comment) {
-      if (!comment.parentRef) {
-        const commentUI = {
-          ...comment,
-          user: findUser(comment.userId),
-          nestedLevel: 0,
-          replies: [],
-        };
-        topLevelComments.value.push(commentUI);
-      } else {
-        const parent = findParentComment(
-          topLevelComments.value,
-          comment.parentRef
-        );
-        if (parent) {
-          parent.replies = parent.replies ?? [];
-          const commentUI = {
-            ...comment,
-            user: findUser(comment.userId),
-            nestedLevel: parent.nestedLevel + 1,
-            replies: [],
-          };
-          parent.replies.push(commentUI);
-        }
-      }
-    }
+    const topLevelComments = computed(() => commentStore.topLevelComments);
+    const currentUser = data.currentUser;
 
-    function deleteComment(commentId: string, parentRef: string) {
-      if (!parentRef) {
-        topLevelComments.value = topLevelComments.value.filter(
-          (value) => value.id !== commentId
-        );
-      } else {
-        const parent = findParentComment(topLevelComments.value, parentRef);
-        if (parent) {
-          parent.replies = parent.replies!.filter(
-            (value) => value.id !== commentId
-          );
-        }
-      }
-      updateCommentsToLocalStorage(commentId, "delete");
-    }
+    const addComment = (comment: Comment) => {
+      commentStore.addComment(comment);
+    };
 
-    function updateComment(
+    const deleteComment = (commentId: string, parentRef: string) => {
+      commentStore.deleteComment(commentId, parentRef);
+    };
+
+    const updateComment = (
       commentId: string,
       message: string,
-      parentRef: string | null
-    ) {
-      if (!parentRef) {
-        topLevelComments.value = topLevelComments.value.map((value) => {
-          if (value.id !== commentId) return value;
-          return {
-            ...value,
-            message: message,
-          };
-        });
-      } else {
-        const parent = findParentComment(topLevelComments.value, parentRef);
-        if (parent) {
-          parent.replies = parent.replies!.map((value) => {
-            if (value.id !== commentId) return value;
-            return {
-              ...value,
-              message: message,
-            };
-          });
-        }
-      }
-      updateCommentsToLocalStorage(commentId, "update", { message: message });
-    }
+      parentRef: string
+    ) => {
+      console.log("here");
+      commentStore.updateComment(commentId, message, parentRef);
+    };
 
     return {
       topLevelComments,
-      currentUser: data.currentUser,
+      currentUser,
       addComment,
       deleteComment,
       updateComment,

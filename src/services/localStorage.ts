@@ -1,4 +1,4 @@
-import { Comment, CommentUI } from "@/type";
+import { Comment } from "@/type";
 
 export function saveCommentToLocalStorage(comment: Comment) {
   const storedComments = localStorage.getItem("comments");
