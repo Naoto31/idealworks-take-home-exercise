@@ -70,8 +70,6 @@ export const useCommentsStore = defineStore("comments", {
       message: string,
       parentRef: string | null
     ) {
-      console.log("pinia");
-      console.log(parentRef);
       if (!parentRef) {
         this.topLevelComments = this.topLevelComments.map((value) => {
           if (value.id !== commentId) return value;
@@ -80,7 +78,6 @@ export const useCommentsStore = defineStore("comments", {
             message: message,
           };
         });
-        console.log("here");
       } else {
         const parent = findParentComment(this.topLevelComments, parentRef);
         if (parent) {
