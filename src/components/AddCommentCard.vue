@@ -2,16 +2,12 @@
   <div class="card">
     <div class="header">
       <div class="profile">
-        <div
-          v-if="imageUrl"
-          :style="{ backgroundImage: `url(${imageUrl})` }"
-          class="avatar-container image"
-        >
-          <div class="dot"></div>
-        </div>
-        <div v-else class="avatar-container icon">
-          <i data-feather="user" stroke="#7F56D9"></i>
-        </div>
+        <ProfileAvatar
+          :user="currentUser"
+          :showDot="true"
+          :size="48"
+          :dotWidth="12"
+        />
         <div class="desc">
           <p>{{ currentUser?.name }}</p>
           <p class="role">{{ currentUser?.role }}</p>
@@ -39,6 +35,7 @@ import { computed, defineComponent, ref } from "vue";
 import { setComment } from "@/helpers/comment.helper";
 import { useCommentsStore } from "@/store/comment";
 import { useUserStore } from "@/store/user";
+import ProfileAvatar from "@/components/ui/ProfileAvatar.vue";
 
 export default defineComponent({
   name: "AddCommentCard",
@@ -48,6 +45,9 @@ export default defineComponent({
       default: null,
     },
   },
+  components: {
+    ProfileAvatar,
+  },
   setup(props) {
     const newComment = ref("");
     const commentStore = useCommentsStore();
@@ -55,8 +55,8 @@ export default defineComponent({
     const currentUser = userStore.currentUser;
 
     const imageUrl = computed(() => {
-      return userStore.currentUser?.image
-        ? require(`@/assets/images/${userStore.currentUser.image}`)
+      return currentUser?.image
+        ? require(`@/assets/images/${currentUser.image}`)
         : "";
     });
 
@@ -112,30 +112,6 @@ export default defineComponent({
     }
   }
 
-  .avatar-container {
-    display: flex;
-    width: 48px;
-    height: 48px;
-    border-radius: 200px;
-    position: relative;
-    justify-content: center;
-    align-items: center;
-
-    .dot {
-      position: absolute;
-      width: 12px;
-      height: 12px;
-      right: 0;
-      bottom: -2px;
-      border-radius: 8px;
-      border: 1.5px solid var(--White, #fff);
-      background: var(--Success-500, #12b76a);
-    }
-  }
-
-  .image {
-    background: lightgray 50% / cover;
-  }
   .body {
     height: 180px;
     max-width: 768px;

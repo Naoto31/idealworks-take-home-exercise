@@ -10,16 +10,12 @@
       <div class="header">
         <!-- profile -->
         <div class="profile">
-          <div
-            v-if="imageUrl"
-            :style="{ backgroundImage: `url(${imageUrl})` }"
-            class="avatar-container image"
-          >
-            <div v-if="currentUser?.id !== comment.userId" class="dot"></div>
-          </div>
-          <div v-else class="avatar-container icon">
-            <i data-feather="user" stroke="#7F56D9"></i>
-          </div>
+          <ProfileAvatar
+            :user="comment.user"
+            :showDot="currentUser?.id !== comment.userId"
+            :size="32"
+            :dotWidth="8"
+          />
           <p>{{ comment.user?.name }}</p>
           <BadgeTag
             v-if="currentUser?.id === comment.userId"
@@ -94,6 +90,8 @@ import { CommentUI, User } from "@/type";
 import BadgeTag from "./ui/BadgeTag.vue";
 import { formatCreatedAt } from "@/utils";
 import AddCommentCard from "../components/AddCommentCard.vue";
+import ProfileAvatar from "../components/ui/ProfileAvatar.vue";
+
 import { useCommentsStore } from "@/store/comment";
 import { useUserStore } from "@/store/user";
 
@@ -102,6 +100,7 @@ export default defineComponent({
   components: {
     BadgeTag,
     AddCommentCard,
+    ProfileAvatar,
   },
   props: {
     comment: {
@@ -326,34 +325,5 @@ export default defineComponent({
       }
     }
   }
-}
-.avatar-container {
-  display: flex;
-  width: 32px;
-  height: 32px;
-  border-radius: 200px;
-  position: relative;
-  justify-content: center;
-  align-items: center;
-
-  .dot {
-    position: absolute;
-    width: 8px;
-    height: 8px;
-    right: 0;
-    bottom: -2px;
-    border-radius: 8px;
-    border: 1.5px solid var(--White, #fff);
-    background: var(--Success-500, #12b76a);
-  }
-}
-
-.image {
-  background: lightgray 50% / cover;
-}
-
-.icon {
-  border-radius: 200px;
-  background: var(--Primary-50, #f9f5ff);
 }
 </style>

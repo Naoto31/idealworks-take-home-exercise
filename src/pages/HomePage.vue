@@ -36,11 +36,9 @@ export default {
     userStore.setCurrentUser(data.currentUser);
 
     const topLevelComments = computed(() => commentStore.topLevelComments);
-    const currentUser = data.currentUser;
 
     return {
       topLevelComments,
-      currentUser,
     };
   },
 };
