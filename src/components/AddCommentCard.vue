@@ -22,9 +22,7 @@
           class="comment-textarea"
         ></textarea>
       </div>
-      <div class="btn-container">
-        <button @click="sendComment">Send</button>
-      </div>
+      <ActionButton label="Send" action="send" @triggerAction="sendComment" />
     </div>
   </div>
 </template>
@@ -36,6 +34,7 @@ import { setComment } from "@/helpers/comment.helper";
 import { useCommentsStore } from "@/store/comment";
 import { useUserStore } from "@/store/user";
 import ProfileAvatar from "@/components/ui/ProfileAvatar.vue";
+import ActionButton from "@/components/ui/ActionButton.vue";
 
 export default defineComponent({
   name: "AddCommentCard",
@@ -47,6 +46,7 @@ export default defineComponent({
   },
   components: {
     ProfileAvatar,
+    ActionButton,
   },
   setup(props) {
     const newComment = ref("");
@@ -145,25 +145,6 @@ export default defineComponent({
         font-size: 16px;
         font-weight: 400;
         line-height: 24px;
-      }
-    }
-
-    .btn-container {
-      text-align: left;
-
-      button {
-        height: 36px;
-        padding: 8px 14px;
-        background-color: #7f56d9;
-        color: white;
-        border: none;
-        box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
-        border-radius: 8px;
-        cursor: pointer;
-
-        &:hover {
-          background-color: #3700b3;
-        }
       }
     }
   }

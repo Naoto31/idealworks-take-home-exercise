@@ -55,7 +55,11 @@
             ></textarea>
           </div>
           <div class="btn-container">
-            <button @click="updateComment">Done</button>
+            <ActionButton
+              label="Done"
+              action="edit"
+              @triggerAction="updateComment"
+            />
           </div>
         </div>
       </div>
@@ -86,11 +90,12 @@
 <script lang="ts">
 import feather from "feather-icons";
 import { defineComponent, computed, ref, watch } from "vue";
-import { CommentUI, User } from "@/type";
+import { CommentUI } from "@/type";
 import BadgeTag from "./ui/BadgeTag.vue";
 import { formatCreatedAt } from "@/utils";
 import AddCommentCard from "../components/AddCommentCard.vue";
 import ProfileAvatar from "../components/ui/ProfileAvatar.vue";
+import ActionButton from "../components/ui/ActionButton.vue";
 
 import { useCommentsStore } from "@/store/comment";
 import { useUserStore } from "@/store/user";
@@ -101,6 +106,7 @@ export default defineComponent({
     BadgeTag,
     AddCommentCard,
     ProfileAvatar,
+    ActionButton,
   },
   props: {
     comment: {
@@ -306,24 +312,8 @@ export default defineComponent({
       }
     }
   }
-
   .btn-container {
     text-align: right;
-
-    button {
-      height: 36px;
-      padding: 8px 14px;
-      background-color: #7f56d9;
-      color: white;
-      border: none;
-      box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
-      border-radius: 8px;
-      cursor: pointer;
-
-      &:hover {
-        background-color: #3700b3;
-      }
-    }
   }
 }
 </style>
