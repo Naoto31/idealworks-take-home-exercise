@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div>
+    <div class="wrapper">
       <CommentCard
         v-for="comment in topLevelComments"
         :key="comment.id"
@@ -162,9 +162,12 @@ export default {
 
 <style lang="scss" scoped>
 .container {
-  display: flex;
-  justify-content: space-around;
   padding: 16px;
+
+  .wrapper {
+    margin: auto;
+    max-width: 768px;
+  }
 
   .one {
     margin-bottom: 16px;
