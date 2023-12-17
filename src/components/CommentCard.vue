@@ -2,7 +2,9 @@
   <div>
     <div
       :style="{
-        marginLeft: `${comment.nestedLevel * 48}px`,
+        marginLeft: isMobile
+          ? `${Math.min(comment.nestedLevel * 48, 48)}px`
+          : `${comment.nestedLevel * 48}px`,
         maxWidth: cardMaxWidth,
       }"
       class="card"
@@ -26,19 +28,24 @@
         </div>
 
         <!-- action container -->
-        <div v-if="currentUser?.id === comment.userId" class="right">
-          <div class="delete" @click="deleteComment">
-            <i class="icon" data-feather="trash-2" stroke="#B42318"></i>
-            <p>Delete</p>
+        <div v-show="!isMobile">
+          <div
+            v-if="currentUser?.id === comment.userId"
+            class="action-container"
+          >
+            <div class="delete" @click="deleteComment">
+              <i class="icon" data-feather="trash-2" stroke="#B42318"></i>
+              <p>Delete</p>
+            </div>
+            <div class="edit" @click="isEdit = true">
+              <i class="icon" data-feather="edit-3" stroke="#7F56D9"></i>
+              <p>Edit</p>
+            </div>
           </div>
-          <div class="edit" @click="isEdit = true">
-            <i class="icon" data-feather="edit-3" stroke="#7F56D9"></i>
-            <p>Edit</p>
+          <div v-else class="action-container reply" @click="isReply = true">
+            <i class="icon" data-feather="corner-up-left" stroke="#7F56D9"></i>
+            <p>Reply</p>
           </div>
-        </div>
-        <div v-else class="right reply" @click="isReply = true">
-          <i class="icon" data-feather="corner-up-left" stroke="#7F56D9"></i>
-          <p>Reply</p>
         </div>
       </div>
 
@@ -73,6 +80,22 @@
           </div>
         </div>
       </div>
+      <div v-show="isMobile" class="bottom">
+        <div v-if="currentUser?.id === comment.userId" class="action-container">
+          <div class="delete" @click="deleteComment">
+            <i class="icon" data-feather="trash-2" stroke="#B42318"></i>
+            <p>Delete</p>
+          </div>
+          <div class="edit" @click="isEdit = true">
+            <i class="icon" data-feather="edit-3" stroke="#7F56D9"></i>
+            <p>Edit</p>
+          </div>
+        </div>
+        <div v-else class="action-container reply" @click="isReply = true">
+          <i class="icon" data-feather="corner-up-left" stroke="#7F56D9"></i>
+          <p>Reply</p>
+        </div>
+      </div>
     </div>
 
     <AddCommentCard
@@ -99,7 +122,14 @@
 
 <script lang="ts">
 import feather from "feather-icons";
-import { defineComponent, computed, ref, watch } from "vue";
+import {
+  defineComponent,
+  computed,
+  ref,
+  watch,
+  onMounted,
+  onBeforeUnmount,
+} from "vue";
 import { CommentUI } from "@/type";
 import BadgeTag from "./ui/BadgeTag.vue";
 import { formatCreatedAt } from "@/utils";
@@ -124,9 +154,6 @@ export default defineComponent({
       required: true,
     },
   },
-  mounted() {
-    feather.replace({ height: 20, width: 20 });
-  },
   setup(props) {
     const commentStore = useCommentsStore();
     const userStore = useUserStore();
@@ -136,6 +163,22 @@ export default defineComponent({
         ? require(`@/assets/images/${props.comment.user.image}`)
         : "";
     });
+
+    const windowWidth = ref(window.innerWidth);
+
+    const updateWindowWidth = () => {
+      windowWidth.value = window.innerWidth;
+    };
+    onMounted(() => {
+      feather.replace({ height: 20, width: 20 });
+      window.addEventListener("resize", updateWindowWidth);
+    });
+
+    onBeforeUnmount(() => {
+      window.removeEventListener("resize", updateWindowWidth);
+    });
+
+    const isMobile = computed(() => windowWidth.value <= 768);
 
     const cardMaxWidth = computed(() => {
       const initialMaxWidth = 768;
@@ -186,6 +229,8 @@ export default defineComponent({
       parentRef,
       currentUser,
       updateScore,
+      windowWidth,
+      isMobile,
     };
   },
 });
@@ -229,70 +274,6 @@ export default defineComponent({
         font-style: normal;
         font-weight: 400;
         line-height: 24px; /* 150% */
-      }
-    }
-
-    .right {
-      display: flex;
-      align-items: center;
-      cursor: pointer;
-
-      p {
-        margin: 0 0 0 8px;
-        font-size: 14px;
-        font-weight: 600;
-        line-height: 20px;
-      }
-    }
-
-    .reply {
-      p {
-        color: #6941c6;
-      }
-
-      &:hover {
-        p {
-          color: #9877e0;
-        }
-        .icon {
-          stroke: #9877e0;
-        }
-      }
-    }
-
-    .delete,
-    .edit {
-      display: flex;
-      align-items: center;
-    }
-
-    .delete {
-      p {
-        color: #b42318;
-      }
-
-      &:hover {
-        p {
-          color: #c34f46;
-        }
-        .icon {
-          stroke: #c34f46;
-        }
-      }
-    }
-
-    .edit {
-      margin-left: 16px;
-      p {
-        color: #6941c6;
-      }
-      &:hover {
-        .icon {
-          stroke: #9877e0;
-        }
-        p {
-          color: #9877e0;
-        }
       }
     }
   }
@@ -395,5 +376,78 @@ export default defineComponent({
   .btn-container {
     text-align: right;
   }
+}
+
+.bottom {
+  text-align: right;
+  margin: 0 16px 16px 0;
+}
+
+.action-container {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+
+  p {
+    margin: 0 0 0 8px;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 20px;
+  }
+}
+
+.delete,
+.edit,
+.reply {
+  display: inline-flex;
+  align-items: center;
+}
+
+.reply {
+  p {
+    color: #6941c6;
+  }
+
+  &:hover {
+    p {
+      color: #9877e0;
+    }
+    .icon {
+      stroke: #9877e0;
+    }
+  }
+}
+
+.delete {
+  p {
+    color: #b42318;
+  }
+
+  &:hover {
+    p {
+      color: #c34f46;
+    }
+    .icon {
+      stroke: #c34f46;
+    }
+  }
+}
+
+.edit {
+  margin-left: 16px;
+  p {
+    color: #6941c6;
+  }
+  &:hover {
+    .icon {
+      stroke: #9877e0;
+    }
+    p {
+      color: #9877e0;
+    }
+  }
+}
+
+.bottom {
 }
 </style>
