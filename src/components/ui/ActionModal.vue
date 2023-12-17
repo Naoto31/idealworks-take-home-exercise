@@ -79,7 +79,7 @@ export default defineComponent({
   p {
     margin: 0 0 16px 0;
     font-size: 16px;
-    color: #667085;
+    color: var(--gray-700);
     margin-bottom: 20px;
     text-align: center;
   }
