@@ -27,11 +27,11 @@ export function buildCommentTree(
 ): CommentUI[] {
   return comments
     .filter((ele) => ele.parentRef === parentId)
-    .map((comment) => ({
+    .map((comment, index) => ({
       ...comment,
       user: findUser(comment.userId),
-      nestedLevel: level > 4 ? 3 : level, // max nested level: 3
-      replies: buildCommentTree(comments, comment.id, level + 1),
+      nestedLevel: !parentId ? 0 : Math.min(level + index, 4), // max nested level: 4
+      replies: buildCommentTree(comments, comment.id, level + index + 1),
     }));
 }
 
