@@ -397,7 +397,7 @@ export default defineComponent({
 
       p {
         margin: 0 0 0 16px;
-        color: var(--Gray-700, #344054);
+        color: var(--gray-700, #344054);
         font-size: 16px;
         font-style: normal;
         font-weight: 500;
@@ -405,7 +405,7 @@ export default defineComponent({
       }
 
       .mobile-createdAt {
-        color: var(--Gray-500, #667085);
+        color: var(--gray-500);
         font-weight: 400;
       }
 
@@ -415,7 +415,7 @@ export default defineComponent({
 
       span {
         margin-left: 16px;
-        color: var(--Gray-500, #667085);
+        color: var(--gray-500);
         font-size: 16px;
         font-style: normal;
         font-weight: 400;
@@ -504,7 +504,7 @@ export default defineComponent({
     .comment-textarea {
       height: 100%;
       width: 100%;
-      color: #667085;
+      color: var(--gray-500);
       font-size: 14px;
       font-weight: 400;
       line-height: 20px;
@@ -565,30 +565,30 @@ export default defineComponent({
 
 .reply {
   p {
-    color: #6941c6;
+    color: var(--primary-text-color, #6941c6);
   }
 
   &:hover {
     p {
-      color: #9877e0;
+      color: var(--primary-hover-color, #9877e0);
     }
     .icon {
-      stroke: #9877e0;
+      stroke: var(--primary-hover-color, #9877e0);
     }
   }
 }
 
 .delete {
   p {
-    color: #b42318;
+    color: var(--danger-color, #b42318);
   }
 
   &:hover {
     p {
-      color: #c34f46;
+      color: var(--danger-hover-color, #c34f46);
     }
     .icon {
-      stroke: #c34f46;
+      stroke: var(--danger-hover-color, #c34f46);
     }
   }
 }
@@ -596,14 +596,14 @@ export default defineComponent({
 .edit {
   margin-left: 16px;
   p {
-    color: #6941c6;
+    color: var(--primary-text-color, #6941c6);
   }
   &:hover {
     .icon {
-      stroke: #9877e0;
+      stroke: var(--primary-hover-color, #9877e0);
     }
     p {
-      color: #9877e0;
+      color: var(--primary-hover-color, #9877e0);
     }
   }
 }

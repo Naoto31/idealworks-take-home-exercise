@@ -34,7 +34,7 @@ export default defineComponent({
 <style lang="scss" scoped>
 .tag {
   padding: 2px 8px;
-  background: #f2f4f7;
+  background: var(--default-background, #f2f4f7);
   border-radius: 16px;
   justify-content: center;
   align-items: center;
@@ -46,17 +46,17 @@ export default defineComponent({
 }
 
 .default {
-  color: #344054;
-  background: #f2f4f7;
+  color: var(--gray-700, #344054);
+  background: var(--default-background, #f2f4f7);
 }
 
 .success {
-  color: var(--Success-700, #027a48);
-  background: #ecfdf3;
+  color: var(--success, #027a48);
+  background: var(--success-background, #ecfdf3);
 }
 
 .focus {
-  color: #274bdb;
-  background: #d9e4ff;
+  color: var(--focus, #274bdb);
+  background: var(--focus-background, #d9e4ff);
 }
 </style>

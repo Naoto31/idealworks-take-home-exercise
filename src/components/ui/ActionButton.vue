@@ -46,9 +46,9 @@ export default defineComponent({
 }
 
 .button-primary {
-  background-color: #7f56d9;
+  background-color: var(--primary-color, #7f56d9);
   &:hover {
-    background-color: #9877e0;
+    background-color: var(--primary-hover-color, #9877e0);
   }
 }
 
@@ -60,9 +60,9 @@ export default defineComponent({
 }
 
 .button-danger {
-  background-color: #b42318;
+  background-color: var(--danger-color, #b42318);
   &:hover {
-    background-color: #c34f46;
+    background-color: var(--danger-hover-color, #c34f46);
   }
 }
 </style>
