@@ -54,13 +54,19 @@ export default defineComponent({
       type: String,
       default: null,
     },
+    mentionName: {
+      type: String,
+      default: "",
+    },
   },
   components: {
     ProfileAvatar,
     ActionButton,
   },
   setup(props, context) {
-    const newComment = ref("");
+    const newComment = ref(
+      `${props.mentionName ? `@${props.mentionName}, ` : ""}`
+    );
     const commentStore = useCommentsStore();
     const userStore = useUserStore();
     const currentUser = userStore.currentUser;

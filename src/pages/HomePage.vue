@@ -32,6 +32,7 @@ export default {
 
     commentStore.initializeComments(data.comments);
     userStore.setCurrentUser(data.currentUser);
+    userStore.setUsers(data.users);
 
     const topLevelComments = computed(() => commentStore.topLevelComments);
 

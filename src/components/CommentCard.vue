@@ -112,7 +112,11 @@
             <i class="icon" data-feather="arrow-down" stroke="#667085"></i>
           </div>
         </div>
-        <div v-if="!isEdit" class="message">{{ comment.message }}</div>
+        <div
+          v-if="!isEdit"
+          class="message"
+          v-html="formatMessage(comment.message)"
+        ></div>
         <div v-else class="edit-right">
           <div class="comment-box">
             <textarea
@@ -165,6 +169,7 @@
       }"
       :currentUser="currentUser"
       :parentRef="comment.id"
+      :mentionName="comment.user?.mentionName"
       @emit-reply="isReply = false"
       @emit-cancel="isReply = false"
     />
@@ -219,6 +224,8 @@ export default defineComponent({
     const commentStore = useCommentsStore();
     const userStore = useUserStore();
     const currentUser = userStore.currentUser;
+    const users = userStore.users ? userStore.users : [];
+
     const imageUrl = computed(() => {
       return props.comment.user?.image
         ? require(`@/assets/images/${props.comment.user.image}`)
@@ -308,6 +315,18 @@ export default defineComponent({
       return replyCount === 1 ? "+ 1 reply" : `+ ${replyCount} replies`;
     });
 
+    const mentionNamesList = users.map((value) => value.mentionName);
+
+    function formatMessage(message: string) {
+      let formatted = message;
+      // regex to stop at commas, periods, or spaces after the mention
+      for (let name of mentionNamesList) {
+        const regex = new RegExp(`@${name}`, "g");
+        formatted = formatted.replace(regex, `<b>@${name}</b>`);
+      }
+      return formatted;
+    }
+
     return {
       imageUrl,
       cardMaxWidth,
@@ -325,6 +344,7 @@ export default defineComponent({
       toggleReplies,
       areRepliesVisible,
       replyCountText,
+      formatMessage,
     };
   },
 });
