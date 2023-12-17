@@ -222,12 +222,20 @@ export default defineComponent({
     const userStore = useUserStore();
     const currentUser = userStore.currentUser;
     const users = userStore.users ? userStore.users : [];
-
     const windowWidth = ref(window.innerWidth);
+    const isMobile = computed(() => windowWidth.value <= 768);
+    const isEdit = ref(false);
+    const isReply = ref(false);
+    const showDeleteModal = ref(false);
+    const commentMessage = ref(props.comment.message);
+    const parentRef = ref(props.comment.parentRef ?? null);
 
-    const updateWindowWidth = () => {
-      windowWidth.value = window.innerWidth;
-    };
+    watch(isEdit, (change) => {
+      if (change) {
+        commentMessage.value = props.comment.message;
+      }
+    });
+
     onMounted(() => {
       feather.replace({ height: 20, width: 20 });
       window.addEventListener("resize", updateWindowWidth);
@@ -237,7 +245,9 @@ export default defineComponent({
       window.removeEventListener("resize", updateWindowWidth);
     });
 
-    const isMobile = computed(() => windowWidth.value <= 768);
+    const updateWindowWidth = () => {
+      windowWidth.value = window.innerWidth;
+    };
 
     const cardMaxWidth = computed(() => {
       const initialMaxWidth = 768;
@@ -245,24 +255,12 @@ export default defineComponent({
       return `${initialMaxWidth - props.comment.nestedLevel * 48}px`;
     });
 
-    const isEdit = ref(false);
-    const isReply = ref(false);
-    const showDeleteModal = ref(false);
-    const parentRef = ref(props.comment.parentRef ?? null);
-    const commentMessage = ref(props.comment.message);
-
-    watch(isEdit, (change) => {
-      if (change) {
-        commentMessage.value = props.comment.message;
-      }
-    });
-
-    const deleteComment = () => {
+    function deleteComment() {
       commentStore.deleteComment(
         props.comment.id,
         props.comment?.parentRef ?? null
       );
-    };
+    }
 
     function updateComment() {
       commentStore.updateComment(
@@ -275,16 +273,6 @@ export default defineComponent({
 
     function updateScore(type: "up" | "down") {
       commentStore.updateCommentScore(props.comment.id, type);
-    }
-
-    // Add a new reactive property for tracking which comments have their replies visible
-    const repliesVisible = ref<{ [key: string]: boolean }>({});
-    const allComments = commentStore.allComments;
-
-    for (const comment of allComments) {
-      if (comment.id && comment.isVisible !== undefined) {
-        repliesVisible.value[comment.id] = comment.isVisible;
-      }
     }
 
     const toggleReplies = (commentId: string) => {
@@ -320,6 +308,17 @@ export default defineComponent({
         formatted = formatted.replace(regex, `<b>@${name}</b>`);
       }
       return formatted;
+    }
+
+    // Add a new reactive property for tracking which comments have their replies visible
+    const repliesVisible = ref<{ [key: string]: boolean }>({});
+    const allComments = commentStore.allComments;
+
+    // initialize replies Visible
+    for (const comment of allComments) {
+      if (comment.id && comment.isVisible !== undefined) {
+        repliesVisible.value[comment.id] = comment.isVisible;
+      }
     }
 
     return {
