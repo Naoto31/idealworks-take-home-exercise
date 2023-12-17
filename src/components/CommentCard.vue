@@ -28,16 +28,16 @@
         <!-- action container -->
         <div v-if="currentUser?.id === comment.userId" class="right">
           <div class="delete" @click="deleteComment">
-            <i data-feather="trash-2" stroke="#B42318"></i>
+            <i class="icon" data-feather="trash-2" stroke="#B42318"></i>
             <p>Delete</p>
           </div>
           <div class="edit" @click="isEdit = true">
-            <i data-feather="edit-3" stroke="#7F56D9"></i>
+            <i class="icon" data-feather="edit-3" stroke="#7F56D9"></i>
             <p>Edit</p>
           </div>
         </div>
         <div v-else class="right reply" @click="isReply = true">
-          <i data-feather="corner-up-left" stroke="#7F56D9"></i>
+          <i class="icon" data-feather="corner-up-left" stroke="#7F56D9"></i>
           <p>Reply</p>
         </div>
       </div>
@@ -249,6 +249,15 @@ export default defineComponent({
       p {
         color: #6941c6;
       }
+
+      &:hover {
+        p {
+          color: #9877e0;
+        }
+        .icon {
+          stroke: #9877e0;
+        }
+      }
     }
 
     .delete,
@@ -261,12 +270,29 @@ export default defineComponent({
       p {
         color: #b42318;
       }
+
+      &:hover {
+        p {
+          color: #c34f46;
+        }
+        .icon {
+          stroke: #c34f46;
+        }
+      }
     }
 
     .edit {
       margin-left: 16px;
       p {
         color: #6941c6;
+      }
+      &:hover {
+        .icon {
+          stroke: #9877e0;
+        }
+        p {
+          color: #9877e0;
+        }
       }
     }
   }

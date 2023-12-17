@@ -48,7 +48,7 @@ export default defineComponent({
 .button-primary {
   background-color: #7f56d9;
   &:hover {
-    background-color: #3700b3;
+    background-color: #9877e0;
   }
 }
 </style>
