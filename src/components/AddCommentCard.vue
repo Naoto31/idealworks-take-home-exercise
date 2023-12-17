@@ -9,7 +9,10 @@
           :dotWidth="12"
         />
         <div class="desc">
-          <p>{{ currentUser?.name }}</p>
+          <div class="upper">
+            <p>{{ currentUser?.name }}</p>
+            <span>@{{ currentUser?.mentionName }}</span>
+          </div>
           <p class="role">{{ currentUser?.role }}</p>
         </div>
       </div>
@@ -116,6 +119,18 @@ export default defineComponent({
 
       .desc {
         text-align: left;
+
+        .upper {
+          display: flex;
+          align-items: center;
+
+          span {
+            margin-left: 6px;
+            color: var(--Gray-500, #667085);
+            font-size: 16px;
+            font-weight: 400;
+          }
+        }
 
         .role {
           color: var(--Gray-500, #667085);

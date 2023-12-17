@@ -3,6 +3,7 @@ export interface User {
   name: string;
   image: string;
   role: string;
+  mentionName: string;
 }
 
 export interface Comment {
