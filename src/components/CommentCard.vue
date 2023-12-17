@@ -44,7 +44,13 @@
 
       <!-- card body -->
       <div class="body">
-        <div class="vote-container"></div>
+        <div class="vote-container">
+          <i class="up" data-feather="arrow-up" stroke="#667085"></i>
+          <span>
+            {{ comment.score ?? 0 }}
+          </span>
+          <i class="down" data-feather="arrow-down" stroke="#667085"></i>
+        </div>
         <div v-if="!isEdit" class="message">{{ comment.message }}</div>
         <div v-else class="edit-right">
           <div class="comment-box">
@@ -261,8 +267,39 @@ export default defineComponent({
     display: flex;
 
     .vote-container {
-      height: 50px;
-      width: 44px;
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+
+      .up,
+      .down {
+        height: 20px;
+        width: 20px;
+        padding: 12px 10px;
+        border: 1px solid #d0d5dd;
+      }
+
+      .up {
+        border-radius: 8px 8px 0 0;
+      }
+      .down {
+        border-radius: 0 0 8px 8px;
+      }
+
+      span {
+        height: 40px;
+        width: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #344054;
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 20px;
+        word-wrap: break-word;
+        border-right: 1px solid #d0d5dd;
+        border-left: 1px solid #d0d5dd;
+      }
     }
 
     .message {
