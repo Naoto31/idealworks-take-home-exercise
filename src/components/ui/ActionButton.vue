@@ -19,7 +19,7 @@ export default defineComponent({
       required: true,
     },
     status: {
-      type: String as PropType<"primary" | "default">,
+      type: String as PropType<"primary" | "default" | "danger">,
       default: "primary",
     },
   },
@@ -56,6 +56,13 @@ export default defineComponent({
   background-color: #ababab;
   &:hover {
     background-color: #bababa;
+  }
+}
+
+.button-danger {
+  background-color: #db2c66;
+  &:hover {
+    background-color: #ffa8b4;
   }
 }
 </style>

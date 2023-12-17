@@ -78,7 +78,7 @@
               v-if="currentUser?.id === comment.userId"
               class="action-container"
             >
-              <div class="delete" @click="deleteComment">
+              <div class="delete" @click="showDeleteModal = true">
                 <i class="icon" data-feather="trash-2" stroke="#B42318"></i>
                 <p>Delete</p>
               </div>
@@ -143,7 +143,7 @@
       </div>
       <div v-show="isMobile" class="bottom">
         <div v-if="currentUser?.id === comment.userId" class="action-container">
-          <div class="delete" @click="deleteComment">
+          <div class="delete" @click="showDeleteModal = true">
             <i class="icon" data-feather="trash-2" stroke="#B42318"></i>
             <p>Delete</p>
           </div>
@@ -183,6 +183,13 @@
         :currentUser="currentUser"
       />
     </div>
+
+    <ActionModal
+      v-show="showDeleteModal"
+      message="Are you sure you want to delete this comment?"
+      @cancel-modal="showDeleteModal = false"
+      @confirm-modal="deleteComment"
+    />
   </div>
 </template>
 
@@ -202,6 +209,7 @@ import { formatCreatedAt } from "@/utils";
 import AddCommentCard from "../components/AddCommentCard.vue";
 import ProfileAvatar from "../components/ui/ProfileAvatar.vue";
 import ActionButton from "../components/ui/ActionButton.vue";
+import ActionModal from "../components/ui/ActionModal.vue";
 
 import { useCommentsStore } from "@/store/comment";
 import { useUserStore } from "@/store/user";
@@ -213,6 +221,7 @@ export default defineComponent({
     AddCommentCard,
     ProfileAvatar,
     ActionButton,
+    ActionModal,
   },
   props: {
     comment: {
@@ -256,6 +265,7 @@ export default defineComponent({
 
     const isEdit = ref(false);
     const isReply = ref(false);
+    const showDeleteModal = ref(false);
     const parentRef = ref(props.comment.parentRef ?? null);
     const commentMessage = ref(props.comment.message);
 
@@ -291,7 +301,6 @@ export default defineComponent({
 
     for (const comment of allComments) {
       if (comment.id && comment.isVisible !== undefined) {
-        console.log(comment.id);
         repliesVisible.value[comment.id] = comment.isVisible;
       }
     }
@@ -349,6 +358,7 @@ export default defineComponent({
       areRepliesVisible,
       replyCountText,
       formatMessage,
+      showDeleteModal,
     };
   },
 });
