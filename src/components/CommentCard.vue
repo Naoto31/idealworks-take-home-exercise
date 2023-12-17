@@ -18,13 +18,20 @@
             :size="32"
             :dotWidth="8"
           />
-          <p>{{ comment.user?.name }}</p>
+          <div>
+            <p>{{ comment.user?.name }}</p>
+            <p v-show="isMobile" class="mobile-createdAt">
+              {{ formatCreatedAt(comment.createdAt) }}
+            </p>
+          </div>
           <BadgeTag
             v-if="currentUser?.id === comment.userId"
             text="You"
             class="badge"
           />
-          <span>{{ formatCreatedAt(comment.createdAt) }}</span>
+          <span v-show="!isMobile">{{
+            formatCreatedAt(comment.createdAt)
+          }}</span>
         </div>
 
         <!-- action container -->
@@ -263,6 +270,11 @@ export default defineComponent({
         line-height: 24px;
       }
 
+      .mobile-createdAt {
+        color: var(--Gray-500, #667085);
+        font-weight: 400;
+      }
+
       .badge {
         margin-left: 16px;
       }
@@ -446,8 +458,5 @@ export default defineComponent({
       color: #9877e0;
     }
   }
-}
-
-.bottom {
 }
 </style>
