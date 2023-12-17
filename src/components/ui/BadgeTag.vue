@@ -15,7 +15,7 @@ export default defineComponent({
       required: true,
     },
     status: {
-      type: String as PropType<"default" | "success">,
+      type: String as PropType<"default" | "success" | "focus">,
       default: "default",
     },
   },
@@ -24,20 +24,20 @@ export default defineComponent({
       return {
         default: this.status === "default",
         success: this.status === "success",
+        focus: this.status === "focus",
       };
     },
   },
 });
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .tag {
   padding: 2px 8px;
   background: #f2f4f7;
   border-radius: 16px;
   justify-content: center;
   align-items: center;
-  display: inline-flex;
   text-align: center;
   color: #344054;
   font-size: 12px;
@@ -45,13 +45,18 @@ export default defineComponent({
   line-height: 18px;
 }
 
-.status-default {
+.default {
   color: #344054;
   background: #f2f4f7;
 }
 
-.status-active {
-  color: #ffffff;
-  background: #28a745;
+.success {
+  color: var(--Success-700, #027a48);
+  background: #ecfdf3;
+}
+
+.focus {
+  color: #274bdb;
+  background: #d9e4ff;
 }
 </style>

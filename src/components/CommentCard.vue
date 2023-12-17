@@ -9,13 +9,7 @@
       }"
       class="card"
     >
-      <div
-        class="header"
-        :class="{
-          'has-replies': comment.replies && comment.replies.length > 0,
-        }"
-        @click="toggleReplies(comment.id)"
-      >
+      <div class="header">
         <!-- profile -->
         <div class="profile">
           <ProfileAvatar
@@ -35,29 +29,72 @@
             text="You"
             class="badge"
           />
+          <BadgeTag
+            v-if="!areRepliesVisible(comment.id)"
+            :text="replyCountText"
+            status="success"
+            class="badge"
+          />
           <span v-show="!isMobile">{{
             formatCreatedAt(comment.createdAt)
           }}</span>
         </div>
-
-        <!-- action container -->
-        <div v-show="!isMobile">
+        <div class="header-right">
           <div
-            v-if="currentUser?.id === comment.userId"
-            class="action-container"
+            v-if="comment.replies && comment.replies.length > 0"
+            @click="toggleReplies(comment.id)"
+            class="reply-badge"
+            :style="{ 'margin-right': isMobile ? '0' : '16px' }"
           >
-            <div class="delete" @click="deleteComment">
-              <i class="icon" data-feather="trash-2" stroke="#B42318"></i>
-              <p>Delete</p>
-            </div>
-            <div class="edit" @click="isEdit = true">
-              <i class="icon" data-feather="edit-3" stroke="#7F56D9"></i>
-              <p>Edit</p>
-            </div>
+            <BadgeTag
+              v-show="!areRepliesVisible(comment.id)"
+              text="Expand"
+              status="focus"
+              class="reply-toggle-icon badge"
+            />
+            <BadgeTag
+              v-show="areRepliesVisible(comment.id)"
+              text="Minimize"
+              status="focus"
+              class="reply-toggle-icon badge"
+            />
+            <!-- <div
+              v-show="!areRepliesVisible(comment.id)"
+              class="reply-toggle-icon"
+            >
+              <i data-feather="chevron-down" stroke="#7F56D9"></i>
+            </div> -->
+            <!-- <div
+              v-show="areRepliesVisible(comment.id)"
+              class="reply-toggle-icon"
+            >
+              <i data-feather="chevron-up" stroke="#7F56D9"></i>
+            </div> -->
           </div>
-          <div v-else class="action-container reply" @click="isReply = true">
-            <i class="icon" data-feather="corner-up-left" stroke="#7F56D9"></i>
-            <p>Reply</p>
+
+          <!-- action container -->
+          <div v-show="!isMobile">
+            <div
+              v-if="currentUser?.id === comment.userId"
+              class="action-container"
+            >
+              <div class="delete" @click="deleteComment">
+                <i class="icon" data-feather="trash-2" stroke="#B42318"></i>
+                <p>Delete</p>
+              </div>
+              <div class="edit" @click="isEdit = true">
+                <i class="icon" data-feather="edit-3" stroke="#7F56D9"></i>
+                <p>Edit</p>
+              </div>
+            </div>
+            <div v-else class="action-container reply" @click="isReply = true">
+              <i
+                class="icon"
+                data-feather="corner-up-left"
+                stroke="#7F56D9"
+              ></i>
+              <p>Reply</p>
+            </div>
           </div>
         </div>
       </div>
@@ -248,6 +285,21 @@ export default defineComponent({
       return repliesVisible.value[commentId] !== false;
     };
 
+    const countReplies = (replies: CommentUI[]) => {
+      let total = replies.length;
+      for (const reply of replies) {
+        if (reply.replies && reply.replies.length > 0) {
+          total += countReplies(reply.replies);
+        }
+      }
+      return total;
+    };
+
+    const replyCountText = computed(() => {
+      const replyCount = countReplies(props.comment.replies || []);
+      return replyCount === 1 ? "+ 1 reply" : `+ ${replyCount} replies`;
+    });
+
     return {
       imageUrl,
       cardMaxWidth,
@@ -264,6 +316,7 @@ export default defineComponent({
       isMobile,
       toggleReplies,
       areRepliesVisible,
+      replyCountText,
     };
   },
 });
@@ -282,6 +335,12 @@ export default defineComponent({
     align-items: center;
     justify-content: space-between;
     border-bottom: 1px solid var(--Gray-200, #eaecf0);
+
+    &:hover {
+      .reply-toggle-icon {
+        display: block;
+      }
+    }
 
     &.has-replies {
       cursor: pointer;
@@ -320,6 +379,10 @@ export default defineComponent({
         font-weight: 400;
         line-height: 24px; /* 150% */
       }
+    }
+    .header-right {
+      display: flex;
+      align-items: center;
     }
   }
 
@@ -439,6 +502,12 @@ export default defineComponent({
     font-weight: 600;
     line-height: 20px;
   }
+}
+
+.reply-toggle-icon {
+  display: none;
+  cursor: pointer;
+  margin-left: 16px;
 }
 
 .delete,
