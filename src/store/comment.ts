@@ -18,10 +18,14 @@ export const useCommentsStore = defineStore("comments", {
   actions: {
     initializeComments(initialComments: Comment[]) {
       const storedComments = getStoredCommentsInLocalStorage();
-      this.topLevelComments = buildCommentTree([
-        ...storedComments,
-        ...initialComments,
-      ]);
+      if (storedComments.length === 0) {
+        // check comments in localStorage, if nothing save initialComments to localStorage
+        localStorage.setItem("comments", JSON.stringify(initialComments));
+        this.topLevelComments = buildCommentTree(initialComments);
+      } else {
+        // Load comments from localStorage
+        this.topLevelComments = buildCommentTree(storedComments);
+      }
     },
     addComment(comment: Comment) {
       saveCommentToLocalStorage(comment);
