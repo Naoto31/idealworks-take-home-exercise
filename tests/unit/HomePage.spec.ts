@@ -12,9 +12,6 @@ describe("HomePage.vue", () => {
     // clear localStorage before each test
     window.localStorage.clear();
 
-    // mock the localStorage with initial data
-    window.localStorage.setItem("comments", JSON.stringify(data.comments));
-
     // Create and set an active Pinia instance
     const pinia = createPinia();
     setActivePinia(pinia);
@@ -30,8 +27,14 @@ describe("HomePage.vue", () => {
     });
   });
 
-  it("renders all the comments", () => {
+  it("render all the comments", () => {
     const commentCards = wrapper.findAllComponents(CommentCard);
     expect(commentCards.length).toBe(data.comments.length);
+  });
+
+  it("display comments in inital load", () => {
+    window.localStorage.setItem("comments", JSON.stringify([]));
+    const commentCards = wrapper.findAllComponents(CommentCard);
+    expect(commentCards.length).toBe(4);
   });
 });
