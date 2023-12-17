@@ -77,6 +77,7 @@ export default defineComponent({
   min-width: 300px;
 
   p {
+    margin: 0 0 16px 0;
     font-size: 16px;
     color: #667085;
     margin-bottom: 20px;
