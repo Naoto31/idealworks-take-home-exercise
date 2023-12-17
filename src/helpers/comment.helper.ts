@@ -34,12 +34,15 @@ export function buildCommentTree(
         return parseDate(a.createdAt) - parseDate(b.createdAt); // sort replies by createdAt
       }
     })
-    .map((comment, index) => ({
-      ...comment,
-      user: findUser(comment.userId),
-      nestedLevel: !parentId ? 0 : Math.min(level + index, 4), // max nested level: 4
-      replies: buildCommentTree(comments, comment.id, level + index + 1),
-    }));
+    .map((comment, index) => {
+      if (!parentId) index = 0;
+      return {
+        ...comment,
+        user: findUser(comment.userId),
+        nestedLevel: !parentId ? 0 : Math.min(level + index, 4), // max nested level: 4
+        replies: buildCommentTree(comments, comment.id, level + index + 1),
+      };
+    });
 }
 
 export function setComment(

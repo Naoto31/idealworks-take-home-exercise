@@ -24,6 +24,7 @@ export const useCommentsStore = defineStore("comments", {
         this.topLevelComments = buildCommentTree(initialComments);
       } else {
         // Load comments from localStorage
+        storedComments.sort((a, b) => b.score - a.score);
         this.topLevelComments = buildCommentTree(storedComments);
       }
     },
@@ -44,10 +45,15 @@ export const useCommentsStore = defineStore("comments", {
         );
         if (parent) {
           parent.replies = parent.replies ?? [];
+          const maxNestedLevel = parent.replies.reduce(
+            (max, reply) => Math.max(max, reply.nestedLevel),
+            parent.nestedLevel
+          );
+
           const commentUI = {
             ...comment,
             user: findUser(comment.userId),
-            nestedLevel: parent.nestedLevel + 1,
+            nestedLevel: Math.min(maxNestedLevel + 1, 4),
             replies: [],
           };
           parent.replies.push(commentUI);
