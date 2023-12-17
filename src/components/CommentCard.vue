@@ -229,6 +229,11 @@ export default defineComponent({
     const showDeleteModal = ref(false);
     const commentMessage = ref(props.comment.message);
     const parentRef = ref(props.comment.parentRef ?? null);
+    const mentionNamesList = users.map((value) => value.mentionName);
+
+    const updateWindowWidth = () => {
+      windowWidth.value = window.innerWidth;
+    };
 
     watch(isEdit, (change) => {
       if (change) {
@@ -244,10 +249,6 @@ export default defineComponent({
     onBeforeUnmount(() => {
       window.removeEventListener("resize", updateWindowWidth);
     });
-
-    const updateWindowWidth = () => {
-      windowWidth.value = window.innerWidth;
-    };
 
     const cardMaxWidth = computed(() => {
       const initialMaxWidth = 768;
@@ -297,8 +298,6 @@ export default defineComponent({
         : 0;
       return replyCount === 1 ? "+ 1 reply" : `+ ${replyCount} replies`;
     });
-
-    const mentionNamesList = users.map((value) => value.mentionName);
 
     function formatMessage(message: string) {
       let formatted = message;
