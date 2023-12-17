@@ -60,9 +60,9 @@ export default defineComponent({
 }
 
 .button-danger {
-  background-color: #db2c66;
+  background-color: #b42318;
   &:hover {
-    background-color: #ffa8b4;
+    background-color: #c34f46;
   }
 }
 </style>
