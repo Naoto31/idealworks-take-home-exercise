@@ -24,7 +24,6 @@ export const useCommentsStore = defineStore("comments", {
         this.topLevelComments = buildCommentTree(initialComments);
       } else {
         // Load comments from localStorage
-        storedComments.sort((a, b) => b.score - a.score);
         this.topLevelComments = buildCommentTree(storedComments);
       }
     },
