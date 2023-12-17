@@ -22,6 +22,14 @@
           class="comment-textarea"
         ></textarea>
       </div>
+      <ActionButton
+        v-if="parentRef"
+        label="Cancel"
+        action="cancel"
+        status="default"
+        @triggerAction="cancel"
+        class="cancel-btn"
+      />
       <ActionButton label="Send" action="send" @triggerAction="sendComment" />
     </div>
   </div>
@@ -73,7 +81,11 @@ export default defineComponent({
       }
     };
 
-    return { imageUrl, newComment, sendComment, currentUser };
+    const cancel = () => {
+      context.emit("emit-cancel");
+    };
+
+    return { imageUrl, newComment, sendComment, currentUser, cancel };
   },
 });
 </script>
@@ -147,6 +159,10 @@ export default defineComponent({
         font-weight: 400;
         line-height: 24px;
       }
+    }
+
+    .cancel-btn {
+      margin-right: 16px;
     }
   }
 }

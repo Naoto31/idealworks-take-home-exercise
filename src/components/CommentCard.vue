@@ -123,6 +123,13 @@
           </div>
           <div class="btn-container">
             <ActionButton
+              label="Cancel"
+              action="cancel"
+              status="default"
+              @triggerAction="isEdit = false"
+              class="cancel-btn"
+            />
+            <ActionButton
               label="Done"
               action="edit"
               @triggerAction="updateComment"
@@ -159,6 +166,7 @@
       :currentUser="currentUser"
       :parentRef="comment.id"
       @emit-reply="isReply = false"
+      @emit-cancel="isReply = false"
     />
 
     <!-- recursive card -->
@@ -483,6 +491,10 @@ export default defineComponent({
   }
   .btn-container {
     text-align: right;
+
+    .cancel-btn {
+      margin-right: 16px;
+    }
   }
 }
 

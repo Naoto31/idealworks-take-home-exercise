@@ -15,11 +15,11 @@ export default defineComponent({
       required: true,
     },
     action: {
-      type: String as PropType<"send" | "edit">,
+      type: String as PropType<"send" | "edit" | "cancel">,
       required: true,
     },
     status: {
-      type: String as PropType<"primary">,
+      type: String as PropType<"primary" | "default">,
       default: "primary",
     },
   },
@@ -49,6 +49,13 @@ export default defineComponent({
   background-color: #7f56d9;
   &:hover {
     background-color: #9877e0;
+  }
+}
+
+.button-default {
+  background-color: #ababab;
+  &:hover {
+    background-color: #bababa;
   }
 }
 </style>
