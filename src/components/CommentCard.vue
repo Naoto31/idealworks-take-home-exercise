@@ -115,6 +115,7 @@
       }"
       :currentUser="currentUser"
       :parentRef="comment.id"
+      @emit-reply="isReply = false"
     />
 
     <!-- recursive card -->

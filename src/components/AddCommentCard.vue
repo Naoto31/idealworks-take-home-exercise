@@ -48,7 +48,7 @@ export default defineComponent({
     ProfileAvatar,
     ActionButton,
   },
-  setup(props) {
+  setup(props, context) {
     const newComment = ref("");
     const commentStore = useCommentsStore();
     const userStore = useUserStore();
@@ -68,6 +68,7 @@ export default defineComponent({
         } as { currentUser: User; parentRef: string };
         const commentObj = setComment(data, newComment.value);
         commentStore.addComment(commentObj);
+        context.emit("emit-reply");
         newComment.value = "";
       }
     };
