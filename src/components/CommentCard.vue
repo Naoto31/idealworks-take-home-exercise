@@ -9,7 +9,13 @@
       }"
       class="card"
     >
-      <div class="header">
+      <div
+        class="header"
+        :class="{
+          'has-replies': comment.replies && comment.replies.length > 0,
+        }"
+        @click="toggleReplies(comment.id)"
+      >
         <!-- profile -->
         <div class="profile">
           <ProfileAvatar
@@ -119,7 +125,7 @@
     />
 
     <!-- recursive card -->
-    <div v-if="comment.replies && comment.replies.length > 0" class="replies">
+    <div v-if="areRepliesVisible(comment.id)" class="replies">
       <CommentCard
         v-for="reply in comment.replies"
         :key="reply.id"
@@ -227,6 +233,21 @@ export default defineComponent({
       commentStore.updateCommentScore(props.comment.id, type);
     }
 
+    // Add a new reactive property for tracking which comments have their replies visible
+    const repliesVisible = ref<{ [key: string]: boolean }>({});
+
+    const toggleReplies = (commentId: string) => {
+      if (repliesVisible.value[commentId] === undefined) {
+        repliesVisible.value[commentId] = false;
+      } else {
+        repliesVisible.value[commentId] = !repliesVisible.value[commentId];
+      }
+    };
+
+    const areRepliesVisible = (commentId: string) => {
+      return repliesVisible.value[commentId] !== false;
+    };
+
     return {
       imageUrl,
       cardMaxWidth,
@@ -241,6 +262,8 @@ export default defineComponent({
       updateScore,
       windowWidth,
       isMobile,
+      toggleReplies,
+      areRepliesVisible,
     };
   },
 });
@@ -259,6 +282,13 @@ export default defineComponent({
     align-items: center;
     justify-content: space-between;
     border-bottom: 1px solid var(--Gray-200, #eaecf0);
+
+    &.has-replies {
+      cursor: pointer;
+      &:hover {
+        background-color: #fafafa;
+      }
+    }
 
     .profile {
       display: flex;
