@@ -15,7 +15,7 @@ export function getStoredCommentsInLocalStorage(): Comment[] {
 export function updateCommentsToLocalStorage(
   commentId: string,
   action: "delete" | "update",
-  value?: { message: string }
+  updateValue?: { [key: string]: any }
 ) {
   const storedComments = getStoredCommentsInLocalStorage();
   let updated = [] as Comment[];
@@ -28,7 +28,7 @@ export function updateCommentsToLocalStorage(
         if (el.id !== commentId) return el;
         return {
           ...el,
-          message: value!.message,
+          ...updateValue,
         };
       });
       break;

@@ -45,11 +45,15 @@
       <!-- card body -->
       <div class="body">
         <div class="vote-container">
-          <i class="up" data-feather="arrow-up" stroke="#667085"></i>
+          <div class="up" @click="updateScore('up')">
+            <i class="icon" data-feather="arrow-up" stroke="#667085"></i>
+          </div>
           <span>
             {{ comment.score ?? 0 }}
           </span>
-          <i class="down" data-feather="arrow-down" stroke="#667085"></i>
+          <div class="down" @click="updateScore('down')">
+            <i class="icon" data-feather="arrow-down" stroke="#667085"></i>
+          </div>
         </div>
         <div v-if="!isEdit" class="message">{{ comment.message }}</div>
         <div v-else class="edit-right">
@@ -166,6 +170,10 @@ export default defineComponent({
       isEdit.value = false;
     }
 
+    function updateScore(type: "up" | "down") {
+      commentStore.updateCommentScore(props.comment.id, type);
+    }
+
     return {
       imageUrl,
       cardMaxWidth,
@@ -177,6 +185,7 @@ export default defineComponent({
       updateComment,
       parentRef,
       currentUser,
+      updateScore,
     };
   },
 });
@@ -277,6 +286,13 @@ export default defineComponent({
         width: 20px;
         padding: 12px 10px;
         border: 1px solid #d0d5dd;
+        cursor: pointer;
+        &:hover {
+          .icon {
+            stroke: #51596a;
+            stroke-width: 3;
+          }
+        }
       }
 
       .up {

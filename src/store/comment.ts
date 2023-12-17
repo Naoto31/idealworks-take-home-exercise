@@ -3,7 +3,7 @@ import { Comment, CommentUI } from "../type";
 import {
   buildCommentTree,
   findUser,
-  findParentComment,
+  findCommentById,
 } from "@/helpers/comment.helper";
 import {
   getStoredCommentsInLocalStorage,
@@ -34,7 +34,7 @@ export const useCommentsStore = defineStore("comments", {
         };
         this.topLevelComments.push(commentUI);
       } else {
-        const parent = findParentComment(
+        const parent = findCommentById(
           this.topLevelComments,
           comment.parentRef
         );
@@ -56,7 +56,7 @@ export const useCommentsStore = defineStore("comments", {
           (value) => value.id !== commentId
         );
       } else {
-        const parent = findParentComment(this.topLevelComments, parentRef);
+        const parent = findCommentById(this.topLevelComments, parentRef);
         if (parent) {
           parent.replies = parent.replies!.filter(
             (value) => value.id !== commentId
@@ -79,7 +79,7 @@ export const useCommentsStore = defineStore("comments", {
           };
         });
       } else {
-        const parent = findParentComment(this.topLevelComments, parentRef);
+        const parent = findCommentById(this.topLevelComments, parentRef);
         if (parent) {
           parent.replies = parent.replies!.map((value) => {
             if (value.id !== commentId) return value;
@@ -91,6 +91,17 @@ export const useCommentsStore = defineStore("comments", {
         }
       }
       updateCommentsToLocalStorage(commentId, "update", { message: message });
+    },
+
+    updateCommentScore(commentId: string, type: "up" | "down") {
+      const comment = findCommentById(this.topLevelComments, commentId);
+      if (comment) {
+        comment.score =
+          type === "up" ? (comment.score ?? 0) + 1 : (comment.score ?? 0) - 1;
+        updateCommentsToLocalStorage(commentId, "update", {
+          score: comment.score,
+        });
+      }
     },
   },
 });
