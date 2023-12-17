@@ -287,6 +287,14 @@ export default defineComponent({
 
     // Add a new reactive property for tracking which comments have their replies visible
     const repliesVisible = ref<{ [key: string]: boolean }>({});
+    const allComments = commentStore.allComments;
+
+    for (const comment of allComments) {
+      if (comment.id && comment.isVisible !== undefined) {
+        console.log(comment.id);
+        repliesVisible.value[comment.id] = comment.isVisible;
+      }
+    }
 
     const toggleReplies = (commentId: string) => {
       if (repliesVisible.value[commentId] === undefined) {
@@ -294,6 +302,10 @@ export default defineComponent({
       } else {
         repliesVisible.value[commentId] = !repliesVisible.value[commentId];
       }
+      commentStore.updateCommentShowAndHide(
+        commentId,
+        repliesVisible.value[commentId]
+      );
     };
 
     const areRepliesVisible = (commentId: string) => {

@@ -13,6 +13,7 @@ export interface Comment {
   message: string;
   createdAt: string | Date;
   score: number;
+  isVisible?: boolean;
 }
 
 export interface DataModel {

@@ -13,17 +13,24 @@ import {
 
 export const useCommentsStore = defineStore("comments", {
   state: () => ({
+    allComments: [] as Comment[],
     topLevelComments: [] as CommentUI[],
   }),
   actions: {
+    setAllComments(comments: Comment[]) {
+      this.allComments = comments;
+    },
     initializeComments(initialComments: Comment[]) {
       const storedComments = getStoredCommentsInLocalStorage();
       if (storedComments.length === 0) {
         // check comments in localStorage, if nothing save initialComments to localStorage
         localStorage.setItem("comments", JSON.stringify(initialComments));
+        this.setAllComments(initialComments);
         this.topLevelComments = buildCommentTree(initialComments);
       } else {
         // Load comments from localStorage
+        this.setAllComments(storedComments);
+
         this.topLevelComments = buildCommentTree(storedComments);
       }
     },
@@ -109,6 +116,15 @@ export const useCommentsStore = defineStore("comments", {
           type === "up" ? (comment.score ?? 0) + 1 : (comment.score ?? 0) - 1;
         updateCommentsToLocalStorage(commentId, "update", {
           score: comment.score,
+        });
+      }
+    },
+
+    updateCommentShowAndHide(commentId: string, value: boolean) {
+      const comment = findCommentById(this.topLevelComments, commentId);
+      if (comment) {
+        updateCommentsToLocalStorage(commentId, "update", {
+          isVisible: value,
         });
       }
     },
