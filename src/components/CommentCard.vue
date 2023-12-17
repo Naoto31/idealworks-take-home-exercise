@@ -334,13 +334,14 @@ export default defineComponent({
 
     .comment-box {
       height: 108px;
-      width: calc(100% - 28px);
+      width: calc(100% - 44px);
       padding: 10px 14px;
       background: white;
       box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
       border-radius: 8px;
       border: 1px solid #d0d5dd;
       margin-bottom: 16px;
+      margin-left: 16px;
     }
 
     .comment-textarea {
