@@ -1,5 +1,3 @@
-import { CommentUI } from "./type";
-
 export const formatCreatedAt = (createdAt: string | Date): string => {
   let date: Date;
 
@@ -40,4 +38,20 @@ export const formatCreatedAt = (createdAt: string | Date): string => {
 
 export function generateUniqueId(): string {
   return `comment-${new Date().getTime()}`; // simple timestamp-based ID
+}
+
+export function parseDate(date: string | Date): number {
+  if (typeof date === "string") {
+    const now = new Date();
+    if (date.includes("week")) {
+      const weeks = parseInt(date);
+      now.setDate(now.getDate() - weeks * 7);
+    } else if (date.includes("hour")) {
+      const hours = parseInt(date);
+      now.setHours(now.getHours() - hours);
+    }
+  } else {
+    return date.getTime();
+  }
+  return new Date().getTime();
 }

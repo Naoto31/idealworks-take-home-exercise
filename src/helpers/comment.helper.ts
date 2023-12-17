@@ -1,6 +1,6 @@
 import { Comment, CommentUI, User } from "../type";
 import data from "../data.json";
-import { generateUniqueId } from "@/utils";
+import { generateUniqueId, parseDate } from "@/utils";
 
 export const findCommentById = (
   comments: CommentUI[],
@@ -27,6 +27,13 @@ export function buildCommentTree(
 ): CommentUI[] {
   return comments
     .filter((ele) => ele.parentRef === parentId)
+    .sort((a, b) => {
+      if (parentId === null) {
+        return b.score - a.score; // sort top-level comments by score
+      } else {
+        return parseDate(a.createdAt) - parseDate(b.createdAt); // sort replies by createdAt
+      }
+    })
     .map((comment, index) => ({
       ...comment,
       user: findUser(comment.userId),
