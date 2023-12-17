@@ -3,32 +3,37 @@
     "id": "user_3",
     "name": "Keiko Tanaka",
     "image": "keiko-tanaka.png",
-    "role": "Marketing Coordinator"
+    "role": "Marketing Coordinator",
+    "mentionName": "keiko"
   },
   "users": [
     {
       "id": "user_1",
       "name": "Cassandra Dunn",
       "image": "",
-      "role": "User"
+      "role": "User",
+      "mentionName": "Cassandra Dunn"
     },
     {
       "id": "user_2",
       "name": "Kadji Bell",
       "image": "kadji-bell.png",
-      "role": "User"
+      "role": "User",
+      "mentionName": "Kadji Bell"
     },
     {
       "id": "user_3",
       "name": "Keiko Tanaka",
       "image": "keiko-tanaka.png",
-      "role": "Marketing Coordinator"
+      "role": "Marketing Coordinator",
+      "mentionName": "keiko"
     },
     {
       "id": "user_4",
       "name": "Arlene McCoy",
       "image": "arlene-mccoy.png",
-      "role": "User"
+      "role": "User",
+      "mentionName": "Arlene McCoy"
     }
   ],
   "comments": [
