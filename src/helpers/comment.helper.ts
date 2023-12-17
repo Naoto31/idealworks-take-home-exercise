@@ -2,24 +2,15 @@ import { Comment, CommentUI, User } from "../type";
 import data from "../data.json";
 import { generateUniqueId } from "@/utils";
 
-export const findParentComment = (
+export const findCommentById = (
   comments: CommentUI[],
-  parentRef: string
+  commentId: string
 ): CommentUI | null => {
-  for (let i = 0; i < comments.length; i++) {
-    const comment = comments[i];
-    if (comment.id === parentRef) {
-      return comment;
-    }
+  for (const comment of comments) {
+    if (comment.id === commentId) return comment;
     if (comment.replies) {
-      const parent = comment.replies.find((reply) => reply.id === parentRef);
-      if (parent) {
-        return parent;
-      }
-      const parentInfo = findParentComment(comment.replies, parentRef);
-      if (parentInfo) {
-        return parentInfo;
-      }
+      const found = findCommentById(comment.replies, commentId);
+      if (found) return found;
     }
   }
   return null;
