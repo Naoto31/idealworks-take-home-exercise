@@ -108,7 +108,9 @@
     <AddCommentCard
       v-if="isReply"
       :style="{
-        marginLeft: `${comment.nestedLevel * 48}px`,
+        marginLeft: isMobile
+          ? `${Math.min(comment.nestedLevel * 48, 48)}px`
+          : `${comment.nestedLevel * 48}px`,
         maxWidth: cardMaxWidth,
       }"
       :currentUser="currentUser"
