@@ -300,18 +300,10 @@ export default defineComponent({
       return repliesVisible.value[commentId] !== false;
     };
 
-    const countReplies = (replies: CommentUI[]) => {
-      let total = replies.length;
-      for (const reply of replies) {
-        if (reply.replies && reply.replies.length > 0) {
-          total += countReplies(reply.replies);
-        }
-      }
-      return total;
-    };
-
     const replyCountText = computed(() => {
-      const replyCount = countReplies(props.comment.replies || []);
+      const replyCount = props.comment.replies?.length
+        ? props.comment.replies.length
+        : 0;
       return replyCount === 1 ? "+ 1 reply" : `+ ${replyCount} replies`;
     });
 
