@@ -58,18 +58,6 @@
               status="focus"
               class="reply-toggle-icon badge"
             />
-            <!-- <div
-              v-show="!areRepliesVisible(comment.id)"
-              class="reply-toggle-icon"
-            >
-              <i data-feather="chevron-down" stroke="#7F56D9"></i>
-            </div> -->
-            <!-- <div
-              v-show="areRepliesVisible(comment.id)"
-              class="reply-toggle-icon"
-            >
-              <i data-feather="chevron-up" stroke="#7F56D9"></i>
-            </div> -->
           </div>
 
           <!-- action container -->
@@ -235,12 +223,6 @@ export default defineComponent({
     const currentUser = userStore.currentUser;
     const users = userStore.users ? userStore.users : [];
 
-    const imageUrl = computed(() => {
-      return props.comment.user?.image
-        ? require(`@/assets/images/${props.comment.user.image}`)
-        : "";
-    });
-
     const windowWidth = ref(window.innerWidth);
 
     const updateWindowWidth = () => {
@@ -341,7 +323,6 @@ export default defineComponent({
     }
 
     return {
-      imageUrl,
       cardMaxWidth,
       formatCreatedAt,
       deleteComment,
