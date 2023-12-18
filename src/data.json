@@ -34,6 +34,13 @@
       "image": "arlene-mccoy.png",
       "role": "User",
       "mentionName": "Arlene McCoy"
+    },
+    {
+      "id": "user_5",
+      "name": "Annette Black",
+      "image": "",
+      "role": "User",
+      "mentionName": "Annette Black"
     }
   ],
   "comments": [
@@ -65,9 +72,17 @@
       "id": "comment-4",
       "userId": "user_3",
       "parentRef": "comment-1",
-      "message": " @Cassandra Dunn, @Kadji Bell has a good point. Background apps can be a sneaky culprit. Another thing to consider is your network connection. Poor cellular or Wi-Fi signal can lead to increased battery usage as your phone tries to maintain a connection. You might want to toggle on Airplane mode in areas with weak signals to see if that makes a difference.",
+      "message": "@Cassandra Dunn, @Kadji Bell has a good point. Background apps can be a sneaky culprit. Another thing to consider is your network connection. Poor cellular or Wi-Fi signal can lead to increased battery usage as your phone tries to maintain a connection. You might want to toggle on Airplane mode in areas with weak signals to see if that makes a difference.",
       "createdAt": "5 hours ago",
       "score": 2
+    },
+    {
+      "id": "comment-5",
+      "userId": "user_5",
+      "parentRef": null,
+      "message": "Thanks, @User2 and @User3, for the quick responses! I'll definitely check the background apps and the battery usage list. As for the network connection, that's an interesting point. I'll keep an eye on that as well. This forum is a lifesaver – really appreciate your help!",
+      "createdAt": "15 minutes ago",
+      "score": 1
     }
   ]
 }
