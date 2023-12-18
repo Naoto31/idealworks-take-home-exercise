@@ -35,6 +35,6 @@ describe("HomePage.vue", () => {
   it("display comments in inital load", () => {
     window.localStorage.setItem("comments", JSON.stringify([]));
     const commentCards = wrapper.findAllComponents(CommentCard);
-    expect(commentCards.length).toBe(4);
+    expect(commentCards.length).toBe(5);
   });
 });
