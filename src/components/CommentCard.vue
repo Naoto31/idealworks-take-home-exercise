@@ -3,8 +3,8 @@
     <div
       :style="{
         marginLeft: isMobile
-          ? `${Math.min(comment.nestedLevel * 48, 48)}px`
-          : `${comment.nestedLevel * 48}px`,
+          ? `${Math.min(comment.nestedLevel * 56, 56)}px`
+          : `${comment.nestedLevel * 56}px`,
         maxWidth: cardMaxWidth,
       }"
       class="card"
@@ -151,8 +151,8 @@
       v-if="isReply"
       :style="{
         marginLeft: isMobile
-          ? `${Math.min(comment.nestedLevel * 48, 48)}px`
-          : `${comment.nestedLevel * 48}px`,
+          ? `${Math.min(comment.nestedLevel * 56, 56)}px`
+          : `${comment.nestedLevel * 56}px`,
         maxWidth: cardMaxWidth,
       }"
       :currentUser="currentUser"
@@ -252,8 +252,8 @@ export default defineComponent({
 
     const cardMaxWidth = computed(() => {
       const initialMaxWidth = 768;
-      // Decrease max-width by 48px for each nested level
-      return `${initialMaxWidth - props.comment.nestedLevel * 48}px`;
+      // Decrease max-width by 56px for each nested level
+      return `${initialMaxWidth - props.comment.nestedLevel * 56}px`;
     });
 
     function deleteComment() {
