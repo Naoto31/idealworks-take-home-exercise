@@ -173,7 +173,7 @@
     </div>
 
     <ActionModal
-      v-show="showDeleteModal"
+      v-if="showDeleteModal"
       message="Are you sure you want to delete this comment?"
       @cancel-modal="showDeleteModal = false"
       @confirm-modal="deleteComment"
