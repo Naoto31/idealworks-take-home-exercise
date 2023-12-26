@@ -1,9 +1,7 @@
 export const addComment = (commentText) => {
   cy.scrollTo("bottom");
-
-  cy.get(".comment-textarea").first().type(commentText);
+  cy.get(".comment-textarea").first().should("be.visible").type(commentText);
   cy.get("button").contains("Send").click();
-
   cy.contains(commentText).should("be.visible");
 };
 
@@ -33,8 +31,5 @@ export const deleteComment = (commentText) => {
     });
 
   cy.get(".modal-overlay").should("be.visible");
-
-  cy.wait(500);
-
   cy.get(".button-danger").should("be.visible").click({ force: true });
 };
